@@ -3,19 +3,19 @@
     <div>
         <mat-form-field appearance="outline" class="mr-16">
             <mat-label>First Name</mat-label>
-            <input matInput placeholder="Max">
+            <input [(ngModel)]="user.firstName" matInput placeholder="Max">
             <!-- <mat-hint>Hint</mat-hint> -->
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Last Name</mat-label>
-            <input matInput placeholder="Mustermann">
+            <input [(ngModel)]="user.lastName" matInput placeholder="Mustermann">
             <!-- <mat-hint>Hint</mat-hint> -->
         </mat-form-field>
     </div>
     <div>
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Birthdate</mat-label>
-            <input matInput placeholder="MM/DD/YYYY" [matDatepicker]="picker">
+            <input [(ngModel)]="birthDate" matInput placeholder="MM/DD/YYYY" [matDatepicker]="picker">
             <mat-datepicker-toggle matIconSuffix
                 [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
@@ -25,24 +25,24 @@
     <div>
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Adsress</mat-label>
-            <input matInput placeholder="Musterstr. 1">
+            <input [(ngModel)]="user.address" matInput placeholder="Musterstr. 1">
             <!-- <mat-hint>Hint</mat-hint> -->
         </mat-form-field>
     </div>
     <div>
         <mat-form-field appearance="outline" class="mr-16">
             <mat-label>Zip-Code</mat-label>
-            <input matInput placeholder="12345">
+            <input [(ngModel)]="user.zipCode" matInput placeholder="12345">
             <!-- <mat-hint>Hint</mat-hint> -->
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>City</mat-label>
-            <input matInput placeholder="Musterhausen">
+            <input [(ngModel)]="user.city" matInput placeholder="Musterhausen">
             <!-- <mat-hint>Hint</mat-hint> -->
         </mat-form-field>
     </div>
 </div>
 <div mat-dialog-actions>
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button mat-dialog-close>Save</button>
+    <button mat-button  (click)="saveUser()">Save</button>
 </div>
