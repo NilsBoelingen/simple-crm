@@ -35,6 +35,5 @@ export class AddUserDialogComponent {
     this.loading = true;
     const docRef = await addDoc(collection(this.firestore, "users"), this.user.toJSON());
     this.loading = false;
-    console.log("Document written with ID: ", docRef.id);
   }
 }

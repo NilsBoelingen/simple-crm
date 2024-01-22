@@ -26,6 +26,9 @@
 .logo-container {
     min-height: 56px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 mat-toolbar, mat-toolbar-row {
@@ -62,4 +65,8 @@ mat-toolbar, mat-toolbar-row {
 
 .router-container {
     padding: 16px 56px;
+}
+
+.logo {
+    height: 50px;
 }
