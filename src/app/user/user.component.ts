@@ -8,11 +8,12 @@ import { MatCardModule } from '@angular/material/card';
 import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { User } from '../../models/user.class';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatDialogModule, MatCardModule, CommonModule],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatDialogModule, MatCardModule, CommonModule, RouterLink],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
@@ -27,10 +28,10 @@ export class UserComponent {
     this.unSubUsers = onSnapshot(collection(this.firestore, 'users'), (list) => {
       this.allUsers = [];
       list.forEach((obj) => {
-        let user = obj.data();
-        this.allUsers.push(user + obj.id);
+        let user: User = obj.data() as any;
+        user['id'] = obj.id;
+        this.allUsers.push(user);
       })
-      console.log(this.allUsers)
     })
   }
 
