@@ -7,6 +7,7 @@ import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.compo
 import { MatCardModule } from '@angular/material/card';
 import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
+import { User } from '../../models/user.class';
 
 @Component({
   selector: 'app-user',
@@ -27,8 +28,9 @@ export class UserComponent {
       this.allUsers = [];
       list.forEach((obj) => {
         let user = obj.data();
-        this.allUsers.push(user);
+        this.allUsers.push(user + obj.id);
       })
+      console.log(this.allUsers)
     })
   }
 
