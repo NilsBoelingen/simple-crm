@@ -14,7 +14,7 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-add-user-dialog',
   standalone: true,
-  providers: [provideNativeDateAdapter()],
+  providers: [provideNativeDateAdapter(), Firestore],
   imports: [MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatFormFieldModule, MatInputModule, MatDatepickerModule, FormsModule, MatProgressBarModule, NgIf],
   templateUrl: './add-user-dialog.component.html',
   styleUrl: './add-user-dialog.component.scss'
@@ -22,7 +22,7 @@ import { NgIf } from '@angular/common';
 export class AddUserDialogComponent {
   firestore: Firestore = inject(Firestore);
   user = new User();
-  birthDate!: Date;
+  birthDate: Date = new Date();
   loading: boolean = false;
 
   constructor() {

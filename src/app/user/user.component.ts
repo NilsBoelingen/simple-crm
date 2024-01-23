@@ -13,6 +13,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-user',
   standalone: true,
+  providers: [Firestore],
   imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatDialogModule, MatCardModule, CommonModule, RouterLink],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'

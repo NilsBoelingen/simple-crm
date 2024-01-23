@@ -13,6 +13,7 @@ import { EditNameDialogComponent } from '../edit-name-dialog/edit-name-dialog.co
 @Component({
   selector: 'app-user-detail',
   standalone: true,
+  providers: [MatDialog, Firestore],
   imports: [MatCardModule, MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss'
@@ -37,9 +38,11 @@ export class UserDetailComponent {
   }
 
   getUser() {
-    this.unSubUser = onSnapshot(doc(this.firestore, 'users', this.userId), (user) => {
-      this.user = new User(user.data());
-    });
+    if (this.userId) {
+      this.unSubUser = onSnapshot(doc(this.firestore, 'users', this.userId), (user) => {
+        this.user = new User(user.data());
+      });
+    }
   }
 
   editUserAddress() {
