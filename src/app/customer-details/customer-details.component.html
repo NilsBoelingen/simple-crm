@@ -1,39 +1,67 @@
 <mat-card class="customer-detail-header">
-    <mat-card-content>
-        <button mat-icon-button class="pos-right-upper" [matMenuTriggerFor]="headerMenu">
-            <mat-icon>more_vert</mat-icon>
-        </button>
+  <mat-card-content>
+    <button
+      mat-icon-button
+      class="pos-right-upper"
+      [matMenuTriggerFor]="headerMenu"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
 
-        <mat-menu #headerMenu="matMenu">
-            <button mat-menu-item (click)="editCustomerName()">edit</button>
-        </mat-menu>
+    <mat-menu #headerMenu="matMenu">
+      <button mat-menu-item (click)="editCustomerName()">edit</button>
+    </mat-menu>
 
-        <img src="assets/img/profile.png">
+    <img src="assets/img/profile.png" />
 
-        <div>
-            <h1>{{ customer.firstName }} {{ customer.lastName }}</h1>
-            <span>{{ customer.company }}</span>
-        </div>
-    </mat-card-content>
+    <div>
+      <h1>{{ customer.firstName }} {{ customer.lastName }}</h1>
+      <span>{{ customer.company }}</span>
+    </div>
+  </mat-card-content>
 </mat-card>
 
 <mat-card class="mt-32">
-    <button mat-icon-button class="pos-right-upper" [matMenuTriggerFor]="addressMenu">
-        <mat-icon>more_vert</mat-icon>
-    </button>
+  <button
+    mat-icon-button
+    class="pos-right-upper"
+    [matMenuTriggerFor]="addressMenu"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
 
-    <mat-menu #addressMenu="matMenu">
-        <button mat-menu-item (click)="editCustomerAddress()">edit</button>
-    </mat-menu>
+  <mat-menu #addressMenu="matMenu">
+    <button mat-menu-item (click)="editCustomerAddress()">edit</button>
+  </mat-menu>
 
-    <mat-card-header>
-        <mat-card-title>Contact information</mat-card-title>
-    </mat-card-header>
+  <mat-card-header class="border-bottom-grey">
+    <mat-card-title>Contact information</mat-card-title>
+  </mat-card-header>
 
-    <mat-card-content>
-        {{ customer.address }}<br>
-        {{ customer.zipCode }} {{ customer.city }}<br>
-        <a href="mailto:{{ customer.email }}">{{ customer.email }}</a><br>
-        <a href="tel:{{ customer.telephone }}">{{ customer.telephone }}</a>
-    </mat-card-content>
+  <mat-card-content>
+    {{ customer.address }}<br />
+    {{ customer.zipCode }} {{ customer.city }}<br />
+    <a href="mailto:{{ customer.email }}">{{ customer.email }}</a
+    ><br />
+    <a href="tel:{{ customer.telephone }}">{{ customer.telephone }}</a>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-32">
+  <button
+    mat-icon-button
+    class="pos-right-upper"
+    [matMenuTriggerFor]="sellingMenu"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <mat-menu #sellingMenu="matMenu">
+    <button mat-menu-item (click)="editCustomerAddress()">Direkt sell</button>
+    <button mat-menu-item (click)="editCustomerAddress()">All sells</button>
+  </mat-menu>
+
+  <mat-card-header class="border-bottom-grey">
+    <mat-card-title>Buying History</mat-card-title>
+  </mat-card-header>
 </mat-card>

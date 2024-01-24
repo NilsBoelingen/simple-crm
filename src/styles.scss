@@ -18,3 +18,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .of-visible {
     overflow: visible !important;
 }
+
+.border-bottom-grey {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
