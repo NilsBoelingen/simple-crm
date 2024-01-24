@@ -14,7 +14,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 @Component({
   selector: 'app-edit-name-dialog',
   standalone: true,
-  providers: [provideNativeDateAdapter(), Firestore],
+  providers: [provideNativeDateAdapter()],
   imports: [MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatFormFieldModule, MatInputModule, FormsModule, MatProgressBarModule, NgIf, MatDatepickerModule],
   templateUrl: './edit-name-dialog.component.html',
   styleUrl: './edit-name-dialog.component.scss'
@@ -22,9 +22,9 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 export class EditNameDialogComponent {
   firestore: Firestore = inject(Firestore);
   loading: boolean = false;
-  user: User = new User();
-  birthDate: Date = new Date();
-  userId: string = '';
+  user!: User;
+  birthDate!: Date;
+  userId!: string;
 
   ngOnInit(): void {
     this.birthDate = new Date(this.user.birthDate);

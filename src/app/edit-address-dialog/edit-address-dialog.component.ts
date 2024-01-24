@@ -12,7 +12,6 @@ import { User } from '../../models/user.class';
 @Component({
   selector: 'app-edit-address-dialog',
   standalone: true,
-  providers: [Firestore],
   imports: [MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatFormFieldModule, MatInputModule, FormsModule, MatProgressBarModule, NgIf],
   templateUrl: './edit-address-dialog.component.html',
   styleUrl: './edit-address-dialog.component.scss'
@@ -20,7 +19,7 @@ import { User } from '../../models/user.class';
 export class EditAddressDialogComponent {
   firestore: Firestore = inject(Firestore);
   loading: boolean = false;
-  user: User = new User();
+  user!: User;
   userId!: string;
 
   async saveEdits() {
