@@ -5,7 +5,7 @@
         <div>
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Adsress</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.address" matInput
+                <input [disabled]="loading" [(ngModel)]="customer.address" matInput
                     placeholder="Musterstr. 1">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
@@ -13,13 +13,13 @@
         <div>
             <mat-form-field appearance="outline" class="mr-16">
                 <mat-label>Zip-Code</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.zipCode" matInput
+                <input [disabled]="loading" [(ngModel)]="customer.zipCode" matInput
                     placeholder="12345">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>City</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.city" matInput
+                <input [disabled]="loading" [(ngModel)]="customer.city" matInput
                     placeholder="Musterhausen">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>

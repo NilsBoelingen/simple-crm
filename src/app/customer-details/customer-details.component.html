@@ -1,18 +1,18 @@
-<mat-card class="user-detail-header">
+<mat-card class="customer-detail-header">
     <mat-card-content>
         <button mat-icon-button class="pos-right-upper" [matMenuTriggerFor]="headerMenu">
             <mat-icon>more_vert</mat-icon>
         </button>
-    
+
         <mat-menu #headerMenu="matMenu">
-            <button mat-menu-item (click)="editUserName()">edit</button>
+            <button mat-menu-item (click)="editCustomerName()">edit</button>
         </mat-menu>
 
         <img src="assets/img/profile.png">
-        
+
         <div>
-            <h1>{{ user.firstName }} {{ user.lastName }}</h1>
-            <span>{{ user.email }}</span>
+            <h1>{{ customer.firstName }} {{ customer.lastName }}</h1>
+            <span>{{ customer.email }}</span>
         </div>
     </mat-card-content>
 </mat-card>
@@ -23,7 +23,7 @@
     </button>
 
     <mat-menu #addressMenu="matMenu">
-        <button mat-menu-item (click)="editUserAddress()">edit</button>
+        <button mat-menu-item (click)="editCustomerAddress()">edit</button>
     </mat-menu>
 
     <mat-card-header>
@@ -31,7 +31,7 @@
     </mat-card-header>
 
     <mat-card-content>
-        {{ user.address }}<br>
-        {{ user.zipCode }} {{ user.city }}
+        {{ customer.address }}<br>
+        {{ customer.zipCode }} {{ customer.city }}
     </mat-card-content>
 </mat-card>

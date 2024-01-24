@@ -3,43 +3,43 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
+import { AddCustomerDialogComponent } from '../add-customer-dialog/add-customer-dialog.component';
 import { MatCardModule } from '@angular/material/card';
 import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
-import { User } from '../../models/user.class';
+import { Customer } from '../../models/customer.class';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-user',
+  selector: 'app-customers',
   standalone: true,
   imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatDialogModule, MatCardModule, CommonModule, RouterLink],
-  templateUrl: './user.component.html',
-  styleUrl: './user.component.scss'
+  templateUrl: './customers.component.html',
+  styleUrl: './customers.component.scss'
 })
-export class UserComponent {
+export class CustomersComponent {
   firestore: Firestore = inject(Firestore);
-  unSubUsers: any;
-  allUsers: any = [];
+  unSubCustomers: any;
+  allCustomers: any = [];
 
   constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.unSubUsers = onSnapshot(collection(this.firestore, 'users'), (list) => {
-      this.allUsers = [];
+    this.unSubCustomers = onSnapshot(collection(this.firestore, 'customers'), (list) => {
+      this.allCustomers = [];
       list.forEach((obj) => {
-        let user: User = obj.data() as any;
-        user['id'] = obj.id;
-        this.allUsers.push(user);
+        let customer: Customer = obj.data() as any;
+        customer['id'] = obj.id;
+        this.allCustomers.push(customer);
       })
     })
   }
 
   ngOnDestroy() {
-    this.unSubUsers();
+    this.unSubCustomers();
   }
 
   openDialog() {
-    this.dialog.open(AddUserDialogComponent);
+    this.dialog.open(AddCustomerDialogComponent);
   }
 }

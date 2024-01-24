@@ -5,13 +5,13 @@
         <div>
             <mat-form-field appearance="outline" class="mr-16">
                 <mat-label>First Name</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.firstName"
+                <input [disabled]="loading" [(ngModel)]="customer.firstName"
                     matInput placeholder="Max">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Last Name</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.lastName" matInput
+                <input [disabled]="loading" [(ngModel)]="customer.lastName" matInput
                     placeholder="Mustermann">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
@@ -19,7 +19,7 @@
         <div>
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>E-Mail</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.email" matInput
+                <input [disabled]="loading" [(ngModel)]="customer.email" matInput
                     placeholder="mail@domain.com">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>

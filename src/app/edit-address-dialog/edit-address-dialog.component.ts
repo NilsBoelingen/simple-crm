@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgIf } from '@angular/common';
 import { Firestore, updateDoc, doc, collection } from '@angular/fire/firestore';
-import { User } from '../../models/user.class';
+import { Customer } from '../../models/customer.class';
 
 @Component({
   selector: 'app-edit-address-dialog',
@@ -19,12 +19,12 @@ import { User } from '../../models/user.class';
 export class EditAddressDialogComponent {
   firestore: Firestore = inject(Firestore);
   loading: boolean = false;
-  user!: User;
-  userId!: string;
+  customer!: Customer;
+  customerId!: string;
 
   async saveEdits() {
     this.loading = true;
-    await updateDoc(doc(collection(this.firestore, 'users'), this.userId), this.user.toJSON())
+    await updateDoc(doc(collection(this.firestore, 'customers'), this.customerId), this.customer.toJSON())
     .then(() => {
       this.loading = false;
     });

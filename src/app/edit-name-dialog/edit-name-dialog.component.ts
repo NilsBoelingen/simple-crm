@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgIf } from '@angular/common';
 import { Firestore, doc, updateDoc, collection } from '@angular/fire/firestore';
-import { User } from '../../models/user.class';
+import { Customer } from '../../models/customer.class';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 
@@ -22,18 +22,18 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 export class EditNameDialogComponent {
   firestore: Firestore = inject(Firestore);
   loading: boolean = false;
-  user!: User;
+  customer!: Customer;
   birthDate!: Date;
-  userId!: string;
+  customerId!: string;
 
   ngOnInit(): void {
-    this.birthDate = new Date(this.user.birthDate);
+    this.birthDate = new Date(this.customer.birthDate);
   }
 
   async saveEdits() {
     this.loading = true;
-    this.user.birthDate = this.birthDate.getTime();
-    await updateDoc(doc(collection(this.firestore, 'users'), this.userId), this.user.toJSON())
+    this.customer.birthDate = this.birthDate.getTime();
+    await updateDoc(doc(collection(this.firestore, 'customers'), this.customerId), this.customer.toJSON())
     .then(() => {
       this.loading = false;
     });

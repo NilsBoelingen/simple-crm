@@ -1,17 +1,17 @@
 <div class="dialog-content">
     <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-    <h1 mat-dialog-title>Add User</h1>
+    <h1 mat-dialog-title>Add Customer</h1>
     <div mat-dialog-content class="of-visible">
         <div>
             <mat-form-field appearance="outline" class="mr-16">
                 <mat-label>First Name</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.firstName"
+                <input [disabled]="loading" [(ngModel)]="customer.firstName"
                     matInput placeholder="Max">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Last Name</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.lastName" matInput
+                <input [disabled]="loading" [(ngModel)]="customer.lastName" matInput
                     placeholder="Mustermann">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
@@ -19,7 +19,7 @@
         <div>
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>E-Mail</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.email" matInput
+                <input [disabled]="loading" [(ngModel)]="customer.email" matInput
                 placeholder="mail@domain.com">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
@@ -39,7 +39,7 @@
         <div>
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Adsress</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.address" matInput
+                <input [disabled]="loading" [(ngModel)]="customer.address" matInput
                     placeholder="Musterstr. 1">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
@@ -47,13 +47,13 @@
         <div>
             <mat-form-field appearance="outline" class="mr-16">
                 <mat-label>Zip-Code</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.zipCode" matInput
+                <input [disabled]="loading" [(ngModel)]="customer.zipCode" matInput
                     placeholder="12345">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>City</mat-label>
-                <input [disabled]="loading" [(ngModel)]="user.city" matInput
+                <input [disabled]="loading" [(ngModel)]="customer.city" matInput
                     placeholder="Musterhausen">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
@@ -62,6 +62,6 @@
     <div mat-dialog-actions>
         <button mat-button [disabled]="loading" mat-dialog-close>Cancel</button>
         <button mat-button [disabled]="loading" mat-dialog-close
-            (click)="saveUser()">Save</button>
+            (click)="saveCustomer()">Save</button>
     </div>
 </div>
