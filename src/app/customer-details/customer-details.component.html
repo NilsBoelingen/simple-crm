@@ -27,11 +27,13 @@
     </mat-menu>
 
     <mat-card-header>
-        <mat-card-title>Address</mat-card-title>
+        <mat-card-title>Contact information</mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
         {{ customer.address }}<br>
-        {{ customer.zipCode }} {{ customer.city }}
+        {{ customer.zipCode }} {{ customer.city }}<br>
+        <a href="mailto:{{ customer.email }}">{{ customer.email }}</a><br>
+        <a href="tel:{{ customer.telephone }}">{{ customer.telephone }}</a>
     </mat-card-content>
 </mat-card>

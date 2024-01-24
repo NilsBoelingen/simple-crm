@@ -25,6 +25,14 @@
             </mat-form-field>
         </div>
         <div>
+          <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Telephone</mat-label>
+              <input [disabled]="loading" [(ngModel)]="customer.telephone" matInput
+              placeholder="00499876123456">
+              <!-- <mat-hint>Hint</mat-hint> -->
+          </mat-form-field>
+      </div>
+        <div>
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Birthdate</mat-label>
                 <input [disabled]="loading" [(ngModel)]="birthDate" matInput

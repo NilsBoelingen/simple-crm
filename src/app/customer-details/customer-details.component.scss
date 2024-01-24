@@ -31,3 +31,12 @@
     right: 8px;
     top: 8px;
 }
+
+a {
+  text-decoration: none;
+  color: #3F51B5;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

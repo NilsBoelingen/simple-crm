@@ -4,6 +4,7 @@
       <tr>
         <th>Name</th>
         <th>E-Mail</th>
+        <th>Telephone</th>
         <th>City</th>
       </tr>
       <tr
@@ -12,6 +13,7 @@
       >
         <td>{{ customer.firstName }} {{ customer.lastName }}</td>
         <td>{{ customer.email }}</td>
+        <td>{{ customer.telephone }}</td>
         <td>{{ customer.city }}</td>
         <td>
           <button mat-icon-button (click)="stopEvent($event)" [matMenuTriggerFor]="customerOverviewMenu">
