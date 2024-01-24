@@ -1,21 +1,40 @@
 <mat-card>
-    <mat-card-content>
-        <table class="customer-table">
-            <tr>
-                <th>Name</th>
-                <th>E-Mail</th>
-                <th>City</th>
-            </tr>
-            <tr *ngFor="let customer of allCustomers" [routerLink]="['/customer/' + customer.id]">
-                <td>{{ customer.firstName }} {{ customer.lastName }}</td>
-                <td>{{ customer.email }}</td>
-                <td>{{ customer.city }}</td>
-                <td><mat-icon>more_vert</mat-icon></td>
-            </tr>
-        </table>
-    </mat-card-content>
-  </mat-card>
+  <mat-card-content>
+    <table class="customer-table">
+      <tr>
+        <th>Name</th>
+        <th>E-Mail</th>
+        <th>City</th>
+      </tr>
+      <tr
+        *ngFor="let customer of allCustomers"
+        [routerLink]="['/customer/' + customer.id]"
+      >
+        <td>{{ customer.firstName }} {{ customer.lastName }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.city }}</td>
+        <td>
+          <button mat-icon-button (click)="stopEvent($event)" [matMenuTriggerFor]="customerOverviewMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #customerOverviewMenu="matMenu">
+            <button mat-menu-item>send Mail</button>
+            <button mat-menu-item>call</button>
+            <button mat-menu-item>delete</button>
+          </mat-menu>
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>
 
-<button class="add-customer-btn" mat-fab color="primary" matTooltip="Add new Customer" [matTooltipPosition]="'above'" (click)="openDialog()">
-    <mat-icon>add</mat-icon>
+<button
+  class="add-customer-btn"
+  mat-fab
+  color="primary"
+  matTooltip="Add new Customer"
+  [matTooltipPosition]="'above'"
+  (click)="openDialog()"
+>
+  <mat-icon>add</mat-icon>
 </button>

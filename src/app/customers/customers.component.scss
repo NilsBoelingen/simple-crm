@@ -20,6 +20,7 @@ mat-card-content {
   }
 
   tr {
+    position: relative;
     font-size: 16px;
     height: 48px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -51,6 +52,13 @@ mat-card-content {
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 2;
     }
   }
 }

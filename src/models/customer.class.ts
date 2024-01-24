@@ -2,6 +2,7 @@ export class Customer {
     firstName: string;
     lastName: string;
     email: string;
+    telephone: number;
     birthDate: number;
     address: string;
     zipCode: number;
@@ -12,6 +13,7 @@ export class Customer {
         this.firstName = obj ? obj.firstName : '';
         this.lastName = obj ? obj.lastName : '';
         this.email = obj ? obj.email : '';
+        this.telephone = obj ? obj.telephone : '';
         this.birthDate = obj ? obj.birthDate : '';
         this.address = obj ? obj.address : '';
         this.zipCode = obj ? obj.zipCode : '';
@@ -23,7 +25,8 @@ export class Customer {
         return {
             firstName: this.firstName,
             lastName: this.lastName,
-            email : this.email,
+            email: this.email,
+            telephone: this.telephone,
             birthDate: this.birthDate,
             address: this.address,
             zipCode: this.zipCode,

@@ -9,30 +9,43 @@ import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { Customer } from '../../models/customer.class';
 import { RouterLink } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatDialogModule, MatCardModule, CommonModule, RouterLink],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatCardModule,
+    CommonModule,
+    RouterLink,
+    MatMenuModule,
+  ],
   templateUrl: './customers.component.html',
-  styleUrl: './customers.component.scss'
+  styleUrl: './customers.component.scss',
 })
 export class CustomersComponent {
   firestore: Firestore = inject(Firestore);
   unSubCustomers: any;
   allCustomers: any = [];
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.unSubCustomers = onSnapshot(collection(this.firestore, 'customers'), (list) => {
-      this.allCustomers = [];
-      list.forEach((obj) => {
-        let customer: Customer = obj.data() as any;
-        customer['id'] = obj.id;
-        this.allCustomers.push(customer);
-      })
-    })
+    this.unSubCustomers = onSnapshot(
+      collection(this.firestore, 'customers'),
+      (list) => {
+        this.allCustomers = [];
+        list.forEach((obj) => {
+          let customer: Customer = obj.data() as any;
+          customer['id'] = obj.id;
+          this.allCustomers.push(customer);
+        });
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -41,5 +54,10 @@ export class CustomersComponent {
 
   openDialog() {
     this.dialog.open(AddCustomerDialogComponent);
+  }
+
+  stopEvent(e: { stopPropagation: () => void; preventDefault: () => void; }) {
+    e.stopPropagation();
+    e.preventDefault();
   }
 }
