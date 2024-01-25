@@ -24,6 +24,7 @@ import { DeleteWarningDialogComponent } from '../delete-warning-dialog/delete-wa
     CommonModule,
     RouterLink,
     MatMenuModule,
+    DeleteWarningDialogComponent
   ],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss',
@@ -54,7 +55,7 @@ export class CustomersComponent {
   }
 
   openDialog() {
-    this.dialog.open(AddCustomerDialogComponent);
+    const dialog = this.dialog.open(AddCustomerDialogComponent);
   }
 
   stopEvent(e: { stopPropagation: () => void; preventDefault: () => void }) {
@@ -66,5 +67,6 @@ export class CustomersComponent {
     const dialog = this.dialog.open(DeleteWarningDialogComponent);
     dialog.componentInstance.allCustomers = this.allCustomers;
     dialog.componentInstance.i = i;
+    dialog.componentInstance.customer = true;
   }
 }

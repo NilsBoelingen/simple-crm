@@ -28,6 +28,9 @@ export class DeleteWarningDialogComponent {
   firestore: Firestore = inject(Firestore);
   allCustomers: any = [];
   i: number = -1;
+  customer: boolean = false;
+  product: boolean = false;
+  allProducts: any = [];
 
   constructor(public dialogRef: MatDialogRef<DeleteWarningDialogComponent>) {}
 
@@ -35,5 +38,11 @@ export class DeleteWarningDialogComponent {
     await deleteDoc(
       doc(this.firestore, 'customers', this.allCustomers[this.i].id)
     );
+    this.customer = false;
+  }
+
+  async deleteProduct() {
+    await deleteDoc(doc(this.firestore, 'products', this.allProducts[this.i].id));
+    this.product = false;
   }
 }

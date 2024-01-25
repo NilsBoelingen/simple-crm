@@ -26,3 +26,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .border-bottom-grey {
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
+
+.pos-right-upper {
+  position: absolute !important;
+  right: 8px;
+  top: 8px;
+}

@@ -8,11 +8,13 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { Product } from '../../models/product.class';
 import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { DeleteWarningDialogComponent } from '../delete-warning-dialog/delete-warning-dialog.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIconModule, MatTooltipModule, MatDialogModule, CommonModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, MatTooltipModule, MatDialogModule, CommonModule, MatMenuModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
@@ -39,5 +41,12 @@ export class ProductsComponent {
 
   openDialog() {
     this.dialog.open(AddProductDialogComponent);
+  }
+
+  openWarningDialog(i: number) {
+    const dialog = this.dialog.open(DeleteWarningDialogComponent)
+    dialog.componentInstance.allProducts = this.allProducts;
+    dialog.componentInstance.i = i;
+    dialog.componentInstance.product = true;
   }
 }

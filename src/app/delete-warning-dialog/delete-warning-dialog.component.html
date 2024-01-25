@@ -1,9 +1,28 @@
-<h1 mat-dialog-title>Delete Customer</h1>
-<div mat-dialog-content>
-  Would you realy like to delete <b>{{ allCustomers[this.i].firstName }} {{ allCustomers[this.i].lastName }}</b>?
-</div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close cdkFocusInitial>No</button>
-  <button mat-button mat-dialog-close (click)="deleteUser()">Yes</button>
+<div *ngIf="customer">
+  <h1 mat-dialog-title>Delete Customer</h1>
+  <div mat-dialog-content>
+    Would you realy like to delete
+    <b
+      >{{ allCustomers[this.i].firstName }}
+      {{ allCustomers[this.i].lastName }}</b
+    >?
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial>No</button>
+    <button mat-button mat-dialog-close (click)="deleteUser()">Yes</button>
+  </div>
 </div>
 
+<div *ngIf="product">
+  <h1 mat-dialog-title>Delete Product</h1>
+  <div mat-dialog-content>
+    Would you realy like to delete
+    <b
+      >{{ allProducts[this.i].name }}</b
+    >?
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial>No</button>
+    <button mat-button mat-dialog-close (click)="deleteProduct()">Yes</button>
+  </div>
+</div>
