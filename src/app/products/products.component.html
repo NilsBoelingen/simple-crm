@@ -1,1 +1,39 @@
-<p>products works!</p>
+<mat-card *ngFor="let product of allProducts" class="mb-16">
+  <mat-card-header>
+    <mat-card-title>{{ product.name }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <span>{{ product.description }}</span>
+
+    <table class="product-detail-table">
+      <tr>
+        <th>Prozessor</th>
+        <th>Mainboard</th>
+        <th>GPU</th>
+        <th>RAM</th>
+        <th>SSD</th>
+        <th>Power supply</th>
+      </tr>
+      <tr>
+        <td>{{ product.prozessor }}</td>
+        <td>{{ product.mainboard }}</td>
+        <td>{{ product.gpu }}</td>
+        <td>{{ product.ram }}</td>
+        <td>{{ product.ssd }}</td>
+        <td>{{ product.power }}</td>
+      </tr>
+    </table>
+  </mat-card-content>
+  <mat-card-footer> {{ product.price }}€ </mat-card-footer>
+</mat-card>
+
+<button
+  class="add-product-btn"
+  mat-fab
+  color="primary"
+  matTooltip="Add new Customer"
+  [matTooltipPosition]="'above'"
+  (click)="openDialog()"
+>
+  <mat-icon>add</mat-icon>
+</button>

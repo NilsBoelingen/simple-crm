@@ -10,6 +10,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditAddressDialogComponent } from '../edit-address-dialog/edit-address-dialog.component';
 import { EditNameDialogComponent } from '../edit-name-dialog/edit-name-dialog.component';
 import { CommonModule } from '@angular/common';
+import { SellProduct } from '../../models/sell-product.class';
 
 @Component({
   selector: 'app-customer-details',
@@ -51,13 +52,7 @@ export class CustomerDetailsComponent {
     this.unSubPurchases = onSnapshot(collection(this.firestore, `customers/${this.customerId}/purchases`), (snapshot) => {
       this.purchases = [];
       snapshot.forEach((purchaseDoc) => {
-        let purchaseTemp = purchaseDoc.data();
-        let purchase = {
-          date: purchaseTemp['date'],
-          product: purchaseTemp['product'],
-          price: purchaseTemp['price'],
-          value: purchaseTemp['value'],
-        }
+        let purchase = new SellProduct(purchaseDoc.data());
         this.purchases.push(purchase);
       });
     });
