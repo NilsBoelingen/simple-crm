@@ -58,10 +58,39 @@
 
   <mat-menu #sellingMenu="matMenu">
     <button mat-menu-item (click)="editCustomerAddress()">Direkt sell</button>
-    <button mat-menu-item (click)="editCustomerAddress()">All sells</button>
+    <button mat-menu-item (click)="editCustomerAddress()">All purchases</button>
   </mat-menu>
 
   <mat-card-header class="border-bottom-grey">
-    <mat-card-title>Buying History</mat-card-title>
+    <mat-card-title>Puchases</mat-card-title>
   </mat-card-header>
+
+  <mat-card-content>
+    <table class="purchases-table">
+      <tr>
+        <th>No.</th>
+        <th>Date</th>
+        <th>Product</th>
+        <th>Value</th>
+        <th>Price per unit</th>
+        <th>Price</th>
+      </tr>
+      <tr *ngFor="let purchase of purchases; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ getDate(purchase.date) }}</td>
+        <td>{{ purchase.product }}</td>
+        <td>{{ purchase.value }}</td>
+        <td>{{ purchase.price }}€</td>
+        <td>{{ purchase.price * purchase.value }}€</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>in total</td>
+        <td>{{ getTotalVolume() }}€</td>
+      </tr>
+    </table>
+  </mat-card-content>
 </mat-card>
