@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { Customer } from '../../models/customer.class';
 import { RouterLink } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
+import { DeleteWarningDialogComponent } from '../delete-warning-dialog/delete-warning-dialog.component';
 
 @Component({
   selector: 'app-customers',
@@ -56,8 +57,14 @@ export class CustomersComponent {
     this.dialog.open(AddCustomerDialogComponent);
   }
 
-  stopEvent(e: { stopPropagation: () => void; preventDefault: () => void; }) {
+  stopEvent(e: { stopPropagation: () => void; preventDefault: () => void }) {
     e.stopPropagation();
     e.preventDefault();
+  }
+
+  openDeleteDialog(i: number) {
+    const dialog = this.dialog.open(DeleteWarningDialogComponent);
+    dialog.componentInstance.allCustomers = this.allCustomers;
+    dialog.componentInstance.i = i;
   }
 }

@@ -3,12 +3,11 @@
     <button
       mat-icon-button
       class="pos-right-upper"
-      [matMenuTriggerFor]="headerMenu"
-    >
+      [matMenuTriggerFor]="headerMenu">
       <mat-icon>more_vert</mat-icon>
     </button>
 
-    <mat-menu #headerMenu="matMenu">
+    <mat-menu #headerMenu="matMenu" xPosition="before">
       <button mat-menu-item (click)="editCustomerName()">edit</button>
     </mat-menu>
 
@@ -25,12 +24,11 @@
   <button
     mat-icon-button
     class="pos-right-upper"
-    [matMenuTriggerFor]="addressMenu"
-  >
+    [matMenuTriggerFor]="addressMenu">
     <mat-icon>more_vert</mat-icon>
   </button>
 
-  <mat-menu #addressMenu="matMenu">
+  <mat-menu #addressMenu="matMenu" xPosition="before">
     <button mat-menu-item (click)="editCustomerAddress()">edit</button>
   </mat-menu>
 
@@ -56,7 +54,7 @@
     <mat-icon>more_vert</mat-icon>
   </button>
 
-  <mat-menu #sellingMenu="matMenu">
+  <mat-menu #sellingMenu="matMenu" xPosition="before">
     <button mat-menu-item (click)="editCustomerAddress()">Direkt sell</button>
     <button mat-menu-item (click)="editCustomerAddress()">All purchases</button>
   </mat-menu>

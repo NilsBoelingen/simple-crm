@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Delete Customer</h1>
+<div mat-dialog-content>
+  Would you realy like to delete <b>{{ allCustomers[this.i].firstName }} {{ allCustomers[this.i].lastName }}</b>?
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial>No</button>
+  <button mat-button mat-dialog-close (click)="deleteUser()">Yes</button>
+</div>
+
