@@ -1,20 +1,20 @@
 export class SellProduct {
   date: number;
-  product: string;
+  name: string;
   price: number;
   value: number;
 
   constructor(obj?: any) {
     this.date = obj ? obj.date : '';
-    this.product = obj ? obj.product : '';
-    this.price = obj ? obj.price : '';
-    this.value  = obj ? obj.value : '';
+    this.name = obj ? obj.name : '';
+    this.price = obj ? obj.price : 0;
+    this.value  = obj ? obj.value : 0;
   }
 
   toJSON() {
     return {
       date: this.date,
-      product: this.product,
+      name: this.name,
       price: this.price,
       value: this.value,
     }

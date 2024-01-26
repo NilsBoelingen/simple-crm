@@ -7,7 +7,7 @@
 </button>
 
 <mat-menu #productMenu="matMenu" xPosition="before">
-  <button mat-menu-item>sell</button>
+  <button mat-menu-item (click)="openSellingDialog(i)">sell</button>
   <button mat-menu-item (click)="openEditDialog(i)">edit</button>
   <button mat-menu-item (click)="openWarningDialog(i)">delete</button>
 </mat-menu>

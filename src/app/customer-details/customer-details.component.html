@@ -3,7 +3,8 @@
     <button
       mat-icon-button
       class="pos-right-upper"
-      [matMenuTriggerFor]="headerMenu">
+      [matMenuTriggerFor]="headerMenu"
+    >
       <mat-icon>more_vert</mat-icon>
     </button>
 
@@ -24,7 +25,8 @@
   <button
     mat-icon-button
     class="pos-right-upper"
-    [matMenuTriggerFor]="addressMenu">
+    [matMenuTriggerFor]="addressMenu"
+  >
     <mat-icon>more_vert</mat-icon>
   </button>
 
@@ -55,8 +57,7 @@
   </button>
 
   <mat-menu #sellingMenu="matMenu" xPosition="before">
-    <button mat-menu-item (click)="editCustomerAddress()">Direkt sell</button>
-    <button mat-menu-item (click)="editCustomerAddress()">All purchases</button>
+    <button mat-menu-item (click)="openSellingDialog()">Direkt sell</button>
   </mat-menu>
 
   <mat-card-header class="border-bottom-grey">
@@ -76,7 +77,7 @@
       <tr *ngFor="let purchase of purchases; let i = index">
         <td>{{ i + 1 }}</td>
         <td>{{ getDate(purchase.date) }}</td>
-        <td>{{ purchase.product }}</td>
+        <td>{{ purchase.name }}</td>
         <td>{{ purchase.value }}</td>
         <td>{{ purchase.price }}€</td>
         <td>{{ purchase.price * purchase.value }}€</td>
@@ -90,5 +91,29 @@
         <td>{{ getTotalVolume() }}€</td>
       </tr>
     </table>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-32">
+  <mat-card-header class="border-bottom-grey">
+    <mat-card-title>Notes</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Note</mat-label>
+        <textarea
+          [disabled]="loading"
+          [(ngModel)]="customer.note"
+          matInput
+          placeholder="Write some notes"
+          style="min-height: 160px;"
+        ></textarea>
+        <!-- <mat-hint>Hint</mat-hint> -->
+      </mat-form-field>
+      <button mat-raised-button (click)="customer.note = ''; saveNote()" class="mr-16">Clear notes</button>
+      <button mat-raised-button (click)="saveNote()">Save</button>
+    </div>
   </mat-card-content>
 </mat-card>

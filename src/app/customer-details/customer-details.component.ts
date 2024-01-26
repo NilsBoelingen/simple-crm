@@ -1,5 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { Firestore, doc, onSnapshot, collection } from '@angular/fire/firestore';
+import {
+  Firestore,
+  doc,
+  onSnapshot,
+  collection,
+  updateDoc
+} from '@angular/fire/firestore';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
 import { Customer } from '../../models/customer.class';
@@ -11,13 +17,27 @@ import { EditAddressDialogComponent } from '../edit-address-dialog/edit-address-
 import { EditNameDialogComponent } from '../edit-name-dialog/edit-name-dialog.component';
 import { CommonModule } from '@angular/common';
 import { SellProduct } from '../../models/sell-product.class';
+import { SellingDialogComponent } from '../selling-dialog/selling-dialog.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-customer-details',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIconModule, MatMenuModule, MatDialogModule, CommonModule],
+  imports: [
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatDialogModule,
+    CommonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule
+  ],
   templateUrl: './customer-details.component.html',
-  styleUrl: './customer-details.component.scss'
+  styleUrl: './customer-details.component.scss',
 })
 export class CustomerDetailsComponent {
   firestore: Firestore = inject(Firestore);
@@ -26,15 +46,16 @@ export class CustomerDetailsComponent {
   unSubPurchases: any;
   customer: Customer = new Customer();
   purchases: any = [];
+  loading: boolean = false;
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute) { }
+  constructor(public dialog: MatDialog, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe(paramMap => {
+    this.route.paramMap.subscribe((paramMap) => {
       this.customerId = paramMap.get('id')!.toString();
       this.getCustomer();
       this.getPurchases();
-    })
+    });
   }
 
   ngOnDestroy() {
@@ -43,19 +64,25 @@ export class CustomerDetailsComponent {
   }
 
   getCustomer() {
-    this.unSubCustomer = onSnapshot(doc(this.firestore, 'customers', this.customerId), (customer) => {
-      this.customer = new Customer(customer.data());
-    });
+    this.unSubCustomer = onSnapshot(
+      doc(this.firestore, 'customers', this.customerId),
+      (customer) => {
+        this.customer = new Customer(customer.data());
+      }
+    );
   }
 
   getPurchases() {
-    this.unSubPurchases = onSnapshot(collection(this.firestore, `customers/${this.customerId}/purchases`), (snapshot) => {
-      this.purchases = [];
-      snapshot.forEach((purchaseDoc) => {
-        let purchase = new SellProduct(purchaseDoc.data());
-        this.purchases.push(purchase);
-      });
-    });
+    this.unSubPurchases = onSnapshot(
+      collection(this.firestore, `customers/${this.customerId}/purchases`),
+      (snapshot) => {
+        this.purchases = [];
+        snapshot.forEach((purchaseDoc) => {
+          let purchase = new SellProduct(purchaseDoc.data());
+          this.purchases.push(purchase);
+        });
+      }
+    );
   }
 
   getDate(date: number) {
@@ -65,7 +92,7 @@ export class CustomerDetailsComponent {
   getTotalVolume() {
     let total = 0;
 
-    this.purchases.forEach((purchase: { value: number; price: number; }) => {
+    this.purchases.forEach((purchase: { value: number; price: number }) => {
       total += purchase.value * purchase.price;
     });
 
@@ -82,5 +109,22 @@ export class CustomerDetailsComponent {
     const dialog = this.dialog.open(EditNameDialogComponent);
     dialog.componentInstance.customer = new Customer(this.customer.toJSON());
     dialog.componentInstance.customerId = this.customerId;
+  }
+
+  openSellingDialog() {
+    const dialog = this.dialog.open(SellingDialogComponent);
+    dialog.componentInstance.currentCustomer = new Customer(this.customer);
+    dialog.componentInstance.customerId = this.customerId;
+    dialog.componentInstance.fromCustomer = true;
+  }
+
+  async saveNote() {
+    this.loading = true;
+    await updateDoc(
+      doc(collection(this.firestore, 'customers'), this.customerId),
+      this.customer.toJSON()
+    ).then(() => {
+      this.loading = false;
+    });
   }
 }

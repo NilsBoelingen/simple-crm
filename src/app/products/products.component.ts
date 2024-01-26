@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { DeleteWarningDialogComponent } from '../delete-warning-dialog/delete-warning-dialog.component';
 import { EditProductDialogComponent } from '../edit-product-dialog/edit-product-dialog.component';
+import { SellingDialogComponent } from '../selling-dialog/selling-dialog.component';
 
 @Component({
   selector: 'app-products',
@@ -40,6 +41,10 @@ export class ProductsComponent {
     );
   }
 
+  ngOnDestroy() {
+    this.unSubProducts();
+  }
+
   openDialog() {
     this.dialog.open(AddProductDialogComponent);
   }
@@ -55,5 +60,13 @@ export class ProductsComponent {
     const dialog = this.dialog.open(EditProductDialogComponent);
     dialog.componentInstance.product = new Product(this.allProducts[i].toJSON());
     dialog.componentInstance.productID = this.allProducts[i].id;
+  }
+
+  openSellingDialog(i: number) {
+    const dialog = this.dialog.open(SellingDialogComponent);
+    dialog.componentInstance.currentProduct = new Product(this.allProducts[i].toJSON());
+    dialog.componentInstance.productId = this.allProducts[i].id;
+    dialog.componentInstance.i = i;
+    dialog.componentInstance.fromProduct = true;
   }
 }
