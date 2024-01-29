@@ -6,7 +6,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ChartModule } from '@syncfusion/ej2-angular-charts';
 import { MonthlySalesChartComponent } from '../monthly-sales-chart/monthly-sales-chart.component';
 
 @Component({
@@ -18,7 +17,6 @@ import { MonthlySalesChartComponent } from '../monthly-sales-chart/monthly-sales
     MatFormFieldModule,
     FormsModule,
     CommonModule,
-    ChartModule,
     MonthlySalesChartComponent,
   ],
   templateUrl: './dashboard.component.html',
@@ -32,33 +30,35 @@ export class DashboardComponent {
   selectedYear: number = new Date().getFullYear();
   static allPurchases: any = [];
   static currentYearPurchases: any = [];
+  static loaded: boolean = false;
+  static $yearInput: any;
 
-  ngOnInit() {
-    this.getAllCustomer();
+  async ngOnInit() {
+    await this.getAllCustomer();
   }
 
-  getAllCustomer() {
+  async getAllCustomer() {
     this.unSubCustomers = onSnapshot(
       collection(this.firestore, 'customers'),
-      (list) => {
+      async (list) => {
         DashboardComponent.allCustomers = [];
         list.forEach((obj) => {
           let customer: Customer = obj.data() as any;
           customer['id'] = obj.id;
           DashboardComponent.allCustomers.push(customer);
         });
-        this.getAllPurchases();
+        await this.getAllPurchases();
       }
     );
   }
 
-  getAllPurchases() {
+  async getAllPurchases() {
     DashboardComponent.allPurchases = [];
     DashboardComponent.currentYearPurchases = [];
     DashboardComponent.allCustomers.forEach((customer: { id: string }) => {
       this.unSubPurchases = onSnapshot(
         collection(this.firestore, `customers/${customer.id}/purchases`),
-        (list) => {
+        async (list) => {
           list.forEach((obj) => {
             let purchaseData = obj.data();
             let purchaseDate = new Date(purchaseData['date']);
@@ -89,7 +89,7 @@ export class DashboardComponent {
               });
             }
           });
-          this.getCurrentYearPurchases();
+          await this.getCurrentYearPurchases();
         }
       );
     });
@@ -113,7 +113,7 @@ export class DashboardComponent {
     return months[month];
   }
 
-  getCurrentYearPurchases() {
+  async getCurrentYearPurchases() {
     DashboardComponent.currentYearPurchases = [];
     DashboardComponent.allPurchases.forEach(
       (sales: { year: number; month: string; total: number }) => {
@@ -125,6 +125,11 @@ export class DashboardComponent {
         }
       }
     );
+    DashboardComponent.loaded = true;
+  }
+
+  checkValue(event: any) {
+    this.selectedYear = +event;
   }
 
   ngOnDestroy() {

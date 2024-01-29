@@ -6,7 +6,9 @@
       matInput
       placeholder="YYYY"
       [(ngModel)]="selectedYear"
-      (change)="getCurrentYearPurchases()"
+      (ngModelChange)="checkValue($event)"
+      (change)="getAllCustomer()"
+      #yearInput
     />
   </mat-form-field>
 </div>
