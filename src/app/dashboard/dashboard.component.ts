@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MonthlySalesChartComponent } from '../monthly-sales-chart/monthly-sales-chart.component';
 import { ProportionalSalesComponent } from '../proportional-sales/proportional-sales.component';
 import { LastSalesComponent } from '../last-sales/last-sales.component';
+import { BestProductsComponent } from '../best-products/best-products.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +22,8 @@ import { LastSalesComponent } from '../last-sales/last-sales.component';
     CommonModule,
     MonthlySalesChartComponent,
     ProportionalSalesComponent,
-    LastSalesComponent
+    LastSalesComponent,
+    BestProductsComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

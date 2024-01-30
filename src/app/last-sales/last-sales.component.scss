@@ -4,4 +4,34 @@ h1 {
 
 table {
   width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: start;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+    font-size: 14px;
+  }
+  tr {
+    position: relative;
+    font-size: 14px;
+    height: 48px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    td {
+      &:first-child {
+        padding-left: 16px;
+      }
+    }
+
+    th {
+      &:first-child {
+        padding-left: 16px;
+      }
+    }
+  }
 }
