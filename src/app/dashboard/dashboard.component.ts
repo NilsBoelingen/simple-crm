@@ -7,6 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MonthlySalesChartComponent } from '../monthly-sales-chart/monthly-sales-chart.component';
+import { ProportionalSalesComponent } from '../proportional-sales/proportional-sales.component';
+import { LastSalesComponent } from '../last-sales/last-sales.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +20,8 @@ import { MonthlySalesChartComponent } from '../monthly-sales-chart/monthly-sales
     FormsModule,
     CommonModule,
     MonthlySalesChartComponent,
+    ProportionalSalesComponent,
+    LastSalesComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -32,6 +36,7 @@ export class DashboardComponent {
   static currentYearPurchases: any = [];
   static loaded: boolean = false;
   static $yearInput: any;
+  static publicSelectedYear: number = new Date().getFullYear();
 
   async ngOnInit() {
     await this.getAllCustomer();
@@ -130,6 +135,7 @@ export class DashboardComponent {
 
   checkValue(event: any) {
     this.selectedYear = +event;
+    DashboardComponent.publicSelectedYear = +event;
   }
 
   ngOnDestroy() {

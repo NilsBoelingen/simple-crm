@@ -1,6 +1,12 @@
-import { Component, ViewEncapsulation, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { DashboardComponent } from '../dashboard/dashboard.component';
-import { Chart, UpdateMode } from 'chart.js/auto';
+import { Chart } from 'chart.js/auto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-monthly-sales-chart',
@@ -28,14 +34,13 @@ export class MonthlySalesChartComponent implements OnInit {
 
   monthlySalesChart: any = [];
 
-  chart: any = [];
+  salesChart: any = [];
 
-  constructor() {}
+  constructor(public router: Router) {}
 
   async ngOnInit(): Promise<void> {
     if (DashboardComponent.loaded) {
       await this.getMonthlyPurchases();
-      // console.log(this.monthlySalesChart);
       this.drawChart();
     } else {
       setTimeout(() => {
@@ -45,7 +50,7 @@ export class MonthlySalesChartComponent implements OnInit {
   }
 
   drawChart() {
-    this.chart = new Chart('canvas', {
+    this.salesChart = new Chart('salesChart', {
       type: 'bar',
       data: {
         labels: [
@@ -89,8 +94,16 @@ export class MonthlySalesChartComponent implements OnInit {
             beginAtZero: true,
           },
         },
+        aspectRatio: 2 | 2,
+        maintainAspectRatio: true,
+        responsive: true,
+        resizeDelay: 300,
+        backgroundColor: '#3F51B5',
         plugins: {
           title: {
+            font: {
+              size: 16,
+            },
             display: true,
             text: 'Monthly sales volume',
           },
