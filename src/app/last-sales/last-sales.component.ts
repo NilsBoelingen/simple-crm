@@ -47,7 +47,6 @@ export class LastSalesComponent {
                 total: purchaseData['price'] * purchaseData['value'],
               });
             });
-            console.log(this.purchases);
             this.lastSalesToArray();
           }
         );
@@ -82,5 +81,9 @@ export class LastSalesComponent {
 
   sortByDate(array: any[]) {
     array.sort((a, b) => b.date - a.date);
+  }
+
+  ngOnDestroy() {
+    this.unSubPurchases();
   }
 }
