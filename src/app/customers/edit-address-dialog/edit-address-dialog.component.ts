@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgIf } from '@angular/common';
 import { Firestore, updateDoc, doc, collection } from '@angular/fire/firestore';
-import { Customer } from '../../models/customer.class';
+import { Customer } from '../../../models/customer.class';
 
 @Component({
   selector: 'app-edit-address-dialog',

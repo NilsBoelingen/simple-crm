@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { Customer } from '../../models/customer.class';
-import { Product } from '../../models/product.class';
+import { Customer } from '../../../../models/customer.class';
+import { Product } from '../../../../models/product.class';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { Firestore, collection, onSnapshot, doc, addDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
-import { SellProduct } from '../../models/sell-product.class';
+import { SellProduct } from '../../../../models/sell-product.class';
 
 @Component({
   selector: 'app-selling-dialog',

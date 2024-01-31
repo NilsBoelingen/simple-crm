@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { DashboardComponent } from '../dashboard/dashboard.component';
+import { DashboardComponent } from '../dashboard.component';
 import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';

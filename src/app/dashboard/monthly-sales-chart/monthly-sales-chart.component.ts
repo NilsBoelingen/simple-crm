@@ -4,7 +4,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { DashboardComponent } from '../dashboard/dashboard.component';
+import { DashboardComponent } from '../dashboard.component';
 import { Chart } from 'chart.js/auto';
 import { Router } from '@angular/router';
 

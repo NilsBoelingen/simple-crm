@@ -15,8 +15,8 @@
     <img src="assets/img/profile.png" />
 
     <div>
-      <h1>{{ customer.firstName }} {{ customer.lastName }}</h1>
-      <span>{{ customer.company }}</span>
+      <h1>{{ firestore.customer.firstName }} {{ firestore.customer.lastName }}</h1>
+      <span>{{ firestore.customer.company }}</span>
     </div>
   </mat-card-content>
 </mat-card>
@@ -39,11 +39,11 @@
   </mat-card-header>
 
   <mat-card-content>
-    {{ customer.address }}<br />
-    {{ customer.zipCode }} {{ customer.city }}<br />
-    <a href="mailto:{{ customer.email }}">{{ customer.email }}</a
+    {{ firestore.customer.address }}<br />
+    {{ firestore.customer.zipCode }} {{ firestore.customer.city }}<br />
+    <a href="mailto:{{ firestore.customer.email }}">{{ firestore.customer.email }}</a
     ><br />
-    <a href="tel:{{ customer.telephone }}">{{ customer.telephone }}</a>
+    <a href="tel:{{ firestore.customer.telephone }}">{{ firestore.customer.telephone }}</a>
   </mat-card-content>
 </mat-card>
 
@@ -74,7 +74,7 @@
         <th>Price per unit</th>
         <th>Price</th>
       </tr>
-      <tr *ngFor="let purchase of purchases; let i = index">
+      <tr *ngFor="let purchase of firestore.unSubCustomerPurchases; let i = index">
         <td>{{ i + 1 }}</td>
         <td>{{ getDate(purchase.date) }}</td>
         <td>{{ purchase.name }}</td>
@@ -104,16 +104,16 @@
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Note</mat-label>
         <textarea
-          [disabled]="loading"
-          [(ngModel)]="customer.note"
+          [disabled]="firestore.loading"
+          [(ngModel)]="firestore.customer.note"
           matInput
           placeholder="Write some notes"
           style="min-height: 160px;"
         ></textarea>
         <!-- <mat-hint>Hint</mat-hint> -->
       </mat-form-field>
-      <button mat-raised-button (click)="customer.note = ''; saveNote()" class="mr-16">Clear notes</button>
-      <button mat-raised-button (click)="saveNote()">Save</button>
+      <button mat-raised-button [disabled]="firestore.loading" (click)="firestore.customer.note = ''; firestore.saveNote()" class="mr-16">Clear notes</button>
+      <button mat-raised-button [disabled]="firestore.loading" (click)="firestore.saveNote()">Save</button>
     </div>
   </mat-card-content>
 </mat-card>

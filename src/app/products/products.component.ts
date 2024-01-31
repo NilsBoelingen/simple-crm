@@ -3,15 +3,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { AddProductDialogComponent } from '../add-product-dialog/add-product-dialog.component';
+import { AddProductDialogComponent } from './add-product-dialog/add-product-dialog.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { Product } from '../../models/product.class';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
-import { DeleteWarningDialogComponent } from '../delete-warning-dialog/delete-warning-dialog.component';
-import { EditProductDialogComponent } from '../edit-product-dialog/edit-product-dialog.component';
-import { SellingDialogComponent } from '../selling-dialog/selling-dialog.component';
+import { DeleteWarningDialogComponent } from '../shared/components/delete-warning-dialog/delete-warning-dialog.component';
+import { EditProductDialogComponent } from './edit-product-dialog/edit-product-dialog.component';
+import { SellingDialogComponent } from '../shared/components/selling-dialog/selling-dialog.component';
 
 @Component({
   selector: 'app-products',

@@ -6,10 +6,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MonthlySalesChartComponent } from '../monthly-sales-chart/monthly-sales-chart.component';
-import { ProportionalSalesComponent } from '../proportional-sales/proportional-sales.component';
-import { LastSalesComponent } from '../last-sales/last-sales.component';
-import { BestProductsComponent } from '../best-products/best-products.component';
+import { MonthlySalesChartComponent } from './monthly-sales-chart/monthly-sales-chart.component';
+import { ProportionalSalesComponent } from './proportional-sales/proportional-sales.component';
+import { LastSalesComponent } from './last-sales/last-sales.component';
+import { BestProductsComponent } from './best-products/best-products.component';
 
 @Component({
   selector: 'app-dashboard',

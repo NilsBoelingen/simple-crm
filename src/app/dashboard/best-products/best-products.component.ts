@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
-import { DashboardComponent } from '../dashboard/dashboard.component';
+import { DashboardComponent } from '../dashboard.component';
 
 @Component({
   selector: 'app-best-products',

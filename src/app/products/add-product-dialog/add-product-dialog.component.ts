@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgIf } from '@angular/common';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
-import { Product } from '../../models/product.class';
+import { Product } from '../../../models/product.class';
 
 @Component({
   selector: 'app-add-product-dialog',
