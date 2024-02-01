@@ -7,8 +7,8 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { Firestore, doc, deleteDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
+import { FirestoreService } from '../../../services/firestore/firestore.service';
 
 @Component({
   selector: 'app-delete-warning-dialog',
@@ -25,24 +25,21 @@ import { CommonModule } from '@angular/common';
   styleUrl: './delete-warning-dialog.component.scss',
 })
 export class DeleteWarningDialogComponent {
-  firestore: Firestore = inject(Firestore);
   allCustomers: any = [];
   i: number = -1;
   customer: boolean = false;
   product: boolean = false;
   allProducts: any = [];
 
-  constructor(public dialogRef: MatDialogRef<DeleteWarningDialogComponent>) {}
+  constructor(public dialogRef: MatDialogRef<DeleteWarningDialogComponent>, public firestore: FirestoreService) {}
 
   async deleteUser() {
-    await deleteDoc(
-      doc(this.firestore, 'customers', this.allCustomers[this.i].id)
-    );
+    this.firestore.deleteUser(this.i)
     this.customer = false;
   }
 
   async deleteProduct() {
-    await deleteDoc(doc(this.firestore, 'products', this.allProducts[this.i].id));
+    this.firestore.deleteProduct(this.i)
     this.product = false;
   }
 }

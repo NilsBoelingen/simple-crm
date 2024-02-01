@@ -18,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 import { Firestore, collection, onSnapshot, doc, addDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { SellProduct } from '../../../../models/sell-product.class';
+import { FirestoreService } from '../../../services/firestore/firestore.service';
 
 @Component({
   selector: 'app-selling-dialog',
@@ -41,65 +42,27 @@ import { SellProduct } from '../../../../models/sell-product.class';
   styleUrl: './selling-dialog.component.scss',
 })
 export class SellingDialogComponent {
-  firestore: Firestore = inject(Firestore);
+
   fromCustomer: boolean = false;
   fromProduct: boolean = false;
-  customerId?: string;
   productId!: string;
   currentCustomer?: Customer;
-  currentProduct: Product = new Product();
-  allCustomers: any = [];
-  allProducts: any = [];
-  unSubProducts: any;
-  unSubCustomers: any;
   unSubProduct: any;
   i: number = -1;
-  sellingProduct: SellProduct = new SellProduct();
   loading: boolean = false;
+  customerId: string = '';
+
+  constructor(public firestore: FirestoreService) {}
 
   ngOnInit(): void {
-    this.unSubProducts = onSnapshot(
-      collection(this.firestore, 'products'),
-      (list) => {
-        this.allProducts = [];
-        list.forEach((obj) => {
-          let product: Product = new Product(obj.data());
-          product['id'] = obj.id;
-          this.allProducts.push(product);
-        });
-      }
-    );
-    this.unSubCustomers = onSnapshot(
-      collection(this.firestore, 'customers'),
-      (list) => {
-        this.allCustomers = [];
-        list.forEach((obj) => {
-          let customer: Customer = new Customer(obj.data());
-          customer['id'] = obj.id;
-          this.allCustomers.push(customer);
-        });
-      }
-    );
-    this.sellingProduct.price = this.currentProduct.price;
-  }
-
-  ngOnDestroy() {
-    this.unSubProducts();
-    this.unSubCustomers();
+    this.firestore.sellingProduct.price = this.firestore.currentProduct.price;
   }
 
   getProductData() {
-    this.unSubProduct = onSnapshot(doc(this.firestore, 'products', this.productId), (product) => {
-      this.currentProduct = new Product(product.data());
-      this.sellingProduct.price = this.currentProduct.price;
-    });
+    this.firestore.getSingleProduct(this.productId);
   }
 
   async sellProduct() {
-    this.loading = true;
-    this.sellingProduct.name = this.currentProduct.name;
-    this.sellingProduct.date = new Date().getTime();
-    const docRef = await addDoc(collection(this.firestore, `customers/${this.customerId}/purchases`), this.sellingProduct.toJSON());
-    this.loading = false;
+    this.firestore.sellProduct(this.customerId);
   }
 }

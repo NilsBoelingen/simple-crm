@@ -6,10 +6,10 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgIf } from '@angular/common';
-import { Firestore, doc, updateDoc, collection } from '@angular/fire/firestore';
 import { Customer } from '../../../models/customer.class';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { FirestoreService } from '../../services/firestore/firestore.service';
 
 @Component({
   selector: 'app-edit-name-dialog',
@@ -19,12 +19,14 @@ import { provideNativeDateAdapter } from '@angular/material/core';
   templateUrl: './edit-name-dialog.component.html',
   styleUrl: './edit-name-dialog.component.scss'
 })
+
 export class EditNameDialogComponent {
-  firestore: Firestore = inject(Firestore);
   loading: boolean = false;
   customer!: Customer;
   birthDate!: Date;
   customerId!: string;
+
+  constructor(public firestore: FirestoreService) {}
 
   ngOnInit(): void {
     this.birthDate = new Date(this.customer.birthDate);
@@ -33,9 +35,6 @@ export class EditNameDialogComponent {
   async saveEdits() {
     this.loading = true;
     this.customer.birthDate = this.birthDate.getTime();
-    await updateDoc(doc(collection(this.firestore, 'customers'), this.customerId), this.customer.toJSON())
-    .then(() => {
-      this.loading = false;
-    });
+    this.firestore.saveCustomerEdits(this.customerId, this.customer);
   }
 }

@@ -6,8 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgIf } from '@angular/common';
-import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 import { Product } from '../../../models/product.class';
+import { FirestoreService } from '../../services/firestore/firestore.service';
 
 @Component({
   selector: 'app-add-product-dialog',
@@ -17,13 +17,11 @@ import { Product } from '../../../models/product.class';
   styleUrl: './add-product-dialog.component.scss'
 })
 export class AddProductDialogComponent {
-  firestore: Firestore = inject(Firestore);
-  product: Product = new Product();
-  loading: boolean = false;
+  newProduct: Product = new Product();
+
+  constructor(public firestore: FirestoreService) {}
 
   async saveProduct() {
-    this.loading = true;
-    const docRef = await addDoc(collection(this.firestore, "products"), this.product.toJSON());
-    this.loading = false;
+    this.firestore.saveNewProduct(this.newProduct);
   }
 }

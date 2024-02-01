@@ -9,7 +9,7 @@
       </tr>
       <tr
         *ngFor="let customer of getCustomer(); let i = index"
-        [routerLink]="['/customer/' + customer.id]" (click)="firestore.customerId = customer.id"
+        [routerLink]="['/customer/' + customer.id]"
       >
         <td>{{ customer.firstName }} {{ customer.lastName }}</td>
         <td>{{ customer.email }}</td>

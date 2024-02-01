@@ -4,7 +4,7 @@ import {
   doc,
   onSnapshot,
   collection,
-  updateDoc
+  updateDoc,
 } from '@angular/fire/firestore';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
@@ -35,20 +35,27 @@ import { FirestoreService } from '../../services/firestore/firestore.service';
     CommonModule,
     MatInputModule,
     MatFormFieldModule,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './customer-details.component.html',
   styleUrl: './customer-details.component.scss',
 })
 export class CustomerDetailsComponent {
-
-
   loading: boolean = false;
+  customerId: string = '';
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute, public firestore: FirestoreService) {}
+  constructor(
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+    public firestore: FirestoreService
+  ) {}
 
   ngOnInit() {
-
+    this.route.paramMap.subscribe((paramMap) => {
+      this.customerId = paramMap.get('id')!.toString();
+    });
+    this.firestore.subCustomer(this.customerId);
+    this.firestore.subCustomerPurchases(this.customerId);
   }
 
   getPurchases() {
@@ -62,31 +69,37 @@ export class CustomerDetailsComponent {
   getTotalVolume() {
     let total = 0;
 
-    this.firestore.CustomerPurchases.forEach((purchase: { value: number; price: number }) => {
-      total += purchase.value * purchase.price;
-    });
+    this.firestore.CustomerPurchases.forEach(
+      (purchase: { value: number; price: number }) => {
+        total += purchase.value * purchase.price;
+      }
+    );
 
     return total;
   }
 
   editCustomerAddress() {
     const dialog = this.dialog.open(EditAddressDialogComponent);
-    dialog.componentInstance.customer = new Customer(this.firestore.customer.toJSON());
-    dialog.componentInstance.customerId = this.firestore.customerId;
+    dialog.componentInstance.customer = new Customer(
+      this.firestore.customer.toJSON()
+    );
+    dialog.componentInstance.customerId = this.customerId;
   }
 
   editCustomerName() {
     const dialog = this.dialog.open(EditNameDialogComponent);
-    dialog.componentInstance.customer = new Customer(this.firestore.customer.toJSON());
-    dialog.componentInstance.customerId = this.firestore.customerId;
+    dialog.componentInstance.customer = new Customer(
+      this.firestore.customer.toJSON()
+    );
+    dialog.componentInstance.customerId = this.customerId;
   }
 
   openSellingDialog() {
     const dialog = this.dialog.open(SellingDialogComponent);
-    dialog.componentInstance.currentCustomer = new Customer(this.firestore.customer);
-    dialog.componentInstance.customerId = this.firestore.customerId;
+    dialog.componentInstance.currentCustomer = new Customer(
+      this.firestore.customer
+    );
+    dialog.componentInstance.customerId = this.customerId;
     dialog.componentInstance.fromCustomer = true;
   }
-
-
 }

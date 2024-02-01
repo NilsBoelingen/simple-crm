@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
+import { Component } from '@angular/core';
 import { DashboardComponent } from '../dashboard.component';
+import { FirestoreService } from '../../services/firestore/firestore.service';
 
 @Component({
   selector: 'app-best-products',
@@ -10,50 +10,10 @@ import { DashboardComponent } from '../dashboard.component';
   styleUrl: './best-products.component.scss'
 })
 export class BestProductsComponent {
-  firestore: Firestore = inject(Firestore);
-  unSubPurchases: any;
 
-  purchases: any[] = [];
-
-  ngOnInit() {
-    if (DashboardComponent.loaded) {
-      this.getPurchasesPerCustomer();
-    } else {
-      setTimeout(() => {
-        this.ngOnInit();
-      }, 50);
-    }
-  }
-
-  async getPurchasesPerCustomer() {
-    this.purchases = [];
-    await DashboardComponent.allCustomers.forEach(
-      (customer: { id: string; firstName: string; lastName: string }) => {
-        let name = customer.firstName + ' ' + customer.lastName;
-        this.unSubPurchases = onSnapshot(
-          collection(this.firestore, `customers/${customer.id}/purchases`),
-          (list) => {
-            list.forEach((data) => {
-              let purchaseData = data.data();
-              this.purchases.push({
-                name: purchaseData['name'],
-                volume: +purchaseData['value'],
-                price: +purchaseData['price'],
-              });
-            });
-            console.log(this.purchases);
-
-          }
-        );
-      }
-    );
-  }
+  constructor(public firestore: FirestoreService) {}
 
   getSalesValue() {
     // errechnet die gesamte Verkaufmenge pro Produkt und speichert es in einem Array
-  }
-
-  ngOnDestroy() {
-    this.unSubPurchases();
   }
 }

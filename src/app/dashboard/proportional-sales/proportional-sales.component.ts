@@ -13,24 +13,11 @@ import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 export class ProportionalSalesComponent {
   firestore: Firestore = inject(Firestore);
 
-  unSubPurchases: any;
-
   proportionalSalesChart: any = [];
   purchases: any = [];
   purchasesPerCustomer: any = [];
 
   loaded: boolean = false;
-
-  async ngOnInit(): Promise<void> {
-    await this.getPurchasesPerCustomer();
-    if (this.loaded) {
-      this.drawChart();
-    } else {
-      setTimeout(() => {
-        this.ngOnInit();
-      }, 50);
-    }
-  }
 
   drawChart() {
     this.proportionalSalesChart = new Chart('proportionalSalesChart', {
@@ -95,29 +82,6 @@ export class ProportionalSalesComponent {
     });
   }
 
-  async getPurchasesPerCustomer() {
-    await DashboardComponent.allCustomers.forEach(
-      (customer: { id: string; firstName: string; lastName: string }) => {
-        let name = customer.firstName + ' ' + customer.lastName;
-        this.unSubPurchases = onSnapshot(
-          collection(this.firestore, `customers/${customer.id}/purchases`),
-          (list) => {
-            list.forEach((data) => {
-              let purchaseData = data.data();
-              let purchaseYear = new Date(purchaseData['date']).getFullYear();
-              this.purchases.push({
-                name: name,
-                year: purchaseYear,
-                total: purchaseData['price'] * purchaseData['value'],
-              });
-            });
-            this.sortPurchases();
-          }
-        );
-      }
-    );
-  }
-
   async sortPurchases() {
     this.purchasesPerCustomer = [];
     await this.purchases.forEach(
@@ -138,9 +102,5 @@ export class ProportionalSalesComponent {
         this.loaded = true;
       }
     );
-  }
-
-  ngOnDestroy() {
-    this.unSubPurchases();
   }
 }

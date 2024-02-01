@@ -5,25 +5,25 @@
       <mat-form-field appearance="outline">
         <mat-label>Select a product</mat-label>
         <mat-select [(value)]="productId" (selectionChange)="getProductData()">
-          <mat-option value="{{ product.id }}" *ngFor="let product of allProducts; let i = index">{{ product.name }}</mat-option>
+          <mat-option value="{{ product.id }}" *ngFor="let product of firestore.productList; let i = index">{{ product.name }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Value</mat-label>
-        <input matInput placeholder="1" [(ngModel)]="sellingProduct.value" />
+        <input matInput placeholder="1" [(ngModel)]="firestore.sellingProduct.value" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Price</mat-label>
-        <input matInput placeholder="2000" [(ngModel)]="sellingProduct.price" />
+        <input matInput placeholder="2000" [(ngModel)]="firestore.sellingProduct.price" />
       </mat-form-field>
     </div>
     <div>
       <mat-form-field appearance="outline">
         <mat-label>Select a customer</mat-label>
         <mat-select [(value)]="customerId">
-          <mat-option value="{{ customer.id }}" *ngFor="let customer of allCustomers; let i = index">{{ customer.firstName }} {{ customer.lastName }}</mat-option>
+          <mat-option value="{{ customer.id }}" *ngFor="let customer of firestore.allCustomers; let i = index">{{ customer.firstName }} {{ customer.lastName }}</mat-option>
 
         </mat-select>
       </mat-form-field>
@@ -33,13 +33,13 @@
     <mat-card class="mb-16">
       <mat-card-content>
         <ul>
-          <li>Prozessor: {{ currentProduct.prozessor }}</li>
-          <li>Mainborad: {{ currentProduct.mainboard }}</li>
-          <li>GPU: {{ currentProduct.gpu }}</li>
-          <li>RAM: {{ currentProduct.ram }}</li>
-          <li>SSD: {{ currentProduct.ssd }}</li>
-          <li>Power supply: {{ currentProduct.power }}</li>
-          <li><b>Price: {{ currentProduct.price }}€</b></li>
+          <li>Prozessor: {{ firestore.currentProduct.prozessor }}</li>
+          <li>Mainborad: {{ firestore.currentProduct.mainboard }}</li>
+          <li>GPU: {{ firestore.currentProduct.gpu }}</li>
+          <li>RAM: {{ firestore.currentProduct.ram }}</li>
+          <li>SSD: {{ firestore.currentProduct.ssd }}</li>
+          <li>Power supply: {{ firestore.currentProduct.power }}</li>
+          <li><b>Price: {{ firestore.currentProduct.price }}€</b></li>
         </ul>
       </mat-card-content>
     </mat-card>
@@ -49,15 +49,15 @@
         <table>
           <tr>
             <td>Price per Unit:</td>
-            <td>{{ sellingProduct.price }}€</td>
+            <td>{{ firestore.sellingProduct.price }}€</td>
           </tr>
           <tr>
             <td>Value:</td>
-            <td>{{ sellingProduct.value }}</td>
+            <td>{{ firestore.sellingProduct.value }}</td>
           </tr>
           <tr>
             <td><b>Total:</b></td>
-            <td><b>{{ sellingProduct.price * sellingProduct.value }}€</b></td>
+            <td><b>{{ firestore.sellingProduct.price * firestore.sellingProduct.value }}€</b></td>
           </tr>
         </table>
       </mat-card-content>

@@ -74,7 +74,7 @@
         <th>Price per unit</th>
         <th>Price</th>
       </tr>
-      <tr *ngFor="let purchase of firestore.unSubCustomerPurchases; let i = index">
+      <tr *ngFor="let purchase of firestore.CustomerPurchases; let i = index">
         <td>{{ i + 1 }}</td>
         <td>{{ getDate(purchase.date) }}</td>
         <td>{{ purchase.name }}</td>
@@ -112,8 +112,8 @@
         ></textarea>
         <!-- <mat-hint>Hint</mat-hint> -->
       </mat-form-field>
-      <button mat-raised-button [disabled]="firestore.loading" (click)="firestore.customer.note = ''; firestore.saveNote()" class="mr-16">Clear notes</button>
-      <button mat-raised-button [disabled]="firestore.loading" (click)="firestore.saveNote()">Save</button>
+      <button mat-raised-button [disabled]="firestore.loading" (click)="firestore.customer.note = ''; firestore.saveNote('abc')" class="mr-16">Clear notes</button>
+      <button mat-raised-button [disabled]="firestore.loading" (click)="firestore.saveNote('abc')">Save</button>
     </div>
   </mat-card-content>
 </mat-card>

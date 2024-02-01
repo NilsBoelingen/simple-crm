@@ -5,13 +5,13 @@
         <div>
             <mat-form-field appearance="outline" class="mr-16">
                 <mat-label>First Name</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.customer.firstName"
+                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.firstName"
                     matInput placeholder="Max">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Last Name</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.customer.lastName" matInput
+                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.lastName" matInput
                     placeholder="Mustermann">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
@@ -19,7 +19,7 @@
         <div>
           <mat-form-field appearance="outline" class="full-width">
               <mat-label>Company</mat-label>
-              <input [disabled]="firestore.loading" [(ngModel)]="firestore.customer.company" matInput
+              <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.company" matInput
               placeholder="Example (Ltd.)">
               <!-- <mat-hint>Hint</mat-hint> -->
           </mat-form-field>
@@ -27,7 +27,7 @@
         <div>
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>E-Mail</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.customer.email" matInput
+                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.email" matInput
                 placeholder="mail@domain.com">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
@@ -35,7 +35,7 @@
         <div>
           <mat-form-field appearance="outline" class="full-width">
               <mat-label>Telephone</mat-label>
-              <input [disabled]="firestore.loading" [(ngModel)]="firestore.customer.telephone" matInput
+              <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.telephone" matInput
               placeholder="00499876123456">
               <!-- <mat-hint>Hint</mat-hint> -->
           </mat-form-field>
@@ -55,7 +55,7 @@
         <div>
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Adsress</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.customer.address" matInput
+                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.address" matInput
                     placeholder="Musterstr. 1">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
@@ -63,13 +63,13 @@
         <div>
             <mat-form-field appearance="outline" class="mr-16">
                 <mat-label>Zip-Code</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.customer.zipCode" matInput
+                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.zipCode" matInput
                     placeholder="12345">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>City</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.customer.city" matInput
+                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.city" matInput
                     placeholder="Musterhausen">
                 <!-- <mat-hint>Hint</mat-hint> -->
             </mat-form-field>

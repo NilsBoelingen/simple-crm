@@ -11,8 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgIf } from '@angular/common';
-import { Firestore, updateDoc, doc, collection } from '@angular/fire/firestore';
 import { Product } from '../../../models/product.class';
+import { FirestoreService } from '../../services/firestore/firestore.service';
 
 @Component({
   selector: 'app-edit-product-dialog',
@@ -33,18 +33,12 @@ import { Product } from '../../../models/product.class';
   styleUrl: './edit-product-dialog.component.scss',
 })
 export class EditProductDialogComponent {
-  firestore: Firestore = inject(Firestore);
   product!: Product;
   productID!: string;
-  loading: boolean = false;
+
+  constructor(public firestore: FirestoreService) {}
 
   async saveEditProduct() {
-    this.loading = true;
-    await updateDoc(
-      doc(collection(this.firestore, 'products'), this.productID),
-      this.product.toJSON()
-    ).then(() => {
-      this.loading = false;
-    });
+    this.firestore.saveEditProduct(this.productID, this.product);
   }
 }
