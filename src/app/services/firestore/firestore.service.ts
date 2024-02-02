@@ -12,6 +12,8 @@ import { Customer } from '../../../models/customer.class';
 import { SellProduct } from '../../../models/sell-product.class';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../../models/product.class';
+import { DashboardComponent } from '../../dashboard/dashboard.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +38,10 @@ export class FirestoreService {
   sellingProduct: SellProduct = new SellProduct();
   allPurchases: any = [];
   unSubPurchases: any;
+  currentYearPurchases: any = [];
+
+  public currentYearPurchasesSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  currentYearPurchases$ = this.currentYearPurchasesSubject.asObservable();
 
   constructor(private route: ActivatedRoute) {
     this.unSubCustomers = this.subCustomers();
@@ -56,27 +62,36 @@ export class FirestoreService {
 
   async subAllPurchases() {
     this.allPurchases = [];
-    this.allCustomers.forEach(
-      (customer: { lastName: string; firstName: string; id: string }) => {
-        this.unSubPurchases = onSnapshot(
-          collection(this.firestore, `customers/${customer.id}/purchases`),
-          async (list) => {
-            list.forEach((obj) => {
-              let purchaseData = obj.data();
-              let purchaseDate = new Date(purchaseData['date']);
-              this.allPurchases.push({
-                name: customer.firstName + customer.lastName,
-                product: purchaseData['name'],
-                price: purchaseData['price'],
-                value: purchaseData['value'],
-                date: purchaseDate,
-              });
-              console.log(this.allPurchases);
-            });
-          }
-        );
-      }
+    await Promise.all(
+      this.allCustomers.map(
+        async (customer: {
+          id: string;
+          firstName: string;
+          lastName: string;
+        }) => {
+          await new Promise<void>((resolve) => {
+            this.unSubPurchases = onSnapshot(
+              collection(this.firestore, `customers/${customer.id}/purchases`),
+              (list) => {
+                list.forEach((obj) => {
+                  let purchaseData = obj.data();
+                  let purchaseDate = new Date(purchaseData['date']);
+                  this.allPurchases.push({
+                    name: customer.firstName + customer.lastName,
+                    product: purchaseData['name'],
+                    price: purchaseData['price'],
+                    value: purchaseData['value'],
+                    date: purchaseDate,
+                  });
+                });
+                resolve();
+              }
+            );
+          });
+        }
+      )
     );
+    await this.getCurrentYearPurchases();
   }
 
   async saveCustomer() {
@@ -190,5 +205,40 @@ export class FirestoreService {
     this.unSubCustomers();
     this.unSubCustomer();
     this.unSubCustomerPurchases();
+  }
+
+  async getCurrentYearPurchases() {
+    this.allPurchases.forEach((purchase: any) => {
+      let purchaseMonth = this.getMonthLabel(purchase.date.getMonth());
+      let purchaseYear = purchase.date.getFullYear();
+      if (purchaseYear === DashboardComponent.publicSelectedYear) {
+        this.currentYearPurchases.push({
+          product: purchase['product'],
+          name: purchase['name'],
+          year: purchaseYear,
+          month: purchaseMonth,
+          total: purchase['price'] * purchase['value'],
+        });
+      }
+    });
+    this.currentYearPurchasesSubject.next([...this.currentYearPurchases]);
+  }
+
+  getMonthLabel(month: number): string {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    return months[month];
   }
 }

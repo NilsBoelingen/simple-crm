@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { DashboardComponent } from '../dashboard.component';
 import { Chart } from 'chart.js/auto';
-import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
+import { FirestoreService } from '../../services/firestore/firestore.service';
 
 @Component({
   selector: 'app-proportional-sales',
@@ -11,29 +11,46 @@ import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
   styleUrl: './proportional-sales.component.scss',
 })
 export class ProportionalSalesComponent {
-  firestore: Firestore = inject(Firestore);
-
   proportionalSalesChart: any = [];
   purchases: any = [];
   purchasesPerCustomer: any = [];
+  currentYearPurchases: any[] = [];
+  chartDrawed = false;
+  chartNames: string[] = [];
+  chartTotals: number[] = [];
 
-  loaded: boolean = false;
+  constructor(public firestore: FirestoreService) {}
+
+  ngOnInit() {
+    this.firestore.currentYearPurchasesSubject.subscribe(
+      (purchases) => {
+        this.currentYearPurchases = purchases;
+        this.sortPurchases();
+        this.fillChartData();
+        if (this.chartDrawed) {
+          this.proportionalSalesChart.destroy();
+          this.drawChart();
+        } else {
+          this.drawChart();
+          this.chartDrawed = true;
+        }
+      },
+      (error) => {
+        console.error('Error in subscription:', error);
+      }
+    );
+    // this.drawChart();
+  }
 
   drawChart() {
     this.proportionalSalesChart = new Chart('proportionalSalesChart', {
       type: 'pie',
       data: {
-        labels: [
-          this.purchasesPerCustomer[0].name as string,
-          this.purchasesPerCustomer[1].name as string,
-        ],
+        labels: this.chartNames,
         datasets: [
           {
             label: 'Sales in €',
-            data: [
-              this.purchasesPerCustomer[0].total as number,
-              this.purchasesPerCustomer[1].total as number,
-            ],
+            data: this.chartTotals,
             borderWidth: 1,
           },
         ],
@@ -50,7 +67,7 @@ export class ProportionalSalesComponent {
             beginAtZero: true,
             grid: {
               display: false,
-            }
+            },
           },
           x: {
             border: {
@@ -61,7 +78,7 @@ export class ProportionalSalesComponent {
             },
             grid: {
               display: false,
-            }
+            },
           },
         },
 
@@ -82,25 +99,29 @@ export class ProportionalSalesComponent {
     });
   }
 
-  async sortPurchases() {
+  sortPurchases() {
     this.purchasesPerCustomer = [];
-    await this.purchases.forEach(
+    this.currentYearPurchases.forEach(
       (purchase: { name: string; total: number; year: number }) => {
         let existingEntry = this.purchasesPerCustomer.find(
           (data: { name: string }) => data.name === purchase.name
         );
-        if (purchase.year === DashboardComponent.publicSelectedYear) {
-          if (existingEntry) {
-            existingEntry.total += purchase.total;
-          } else {
-            this.purchasesPerCustomer.push({
-              name: purchase.name,
-              total: purchase.total,
-            });
-          }
+        if (existingEntry) {
+          existingEntry.total += purchase.total;
+        } else {
+          this.purchasesPerCustomer.push({
+            name: purchase.name,
+            total: purchase.total,
+          });
         }
-        this.loaded = true;
       }
     );
+  }
+
+  fillChartData() {
+    this.purchasesPerCustomer.forEach((customer: { name: string; total: number; }) => {
+      this.chartNames.push(customer.name);
+      this.chartTotals.push(customer.total);
+    });
   }
 }

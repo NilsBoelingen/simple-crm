@@ -1,12 +1,8 @@
-import {
-  Component,
-  ViewEncapsulation,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { DashboardComponent } from '../dashboard.component';
 import { Chart } from 'chart.js/auto';
 import { Router } from '@angular/router';
+import { FirestoreService } from '../../services/firestore/firestore.service';
 
 @Component({
   selector: 'app-monthly-sales-chart',
@@ -33,20 +29,30 @@ export class MonthlySalesChartComponent implements OnInit {
   ];
 
   monthlySalesChart: any = [];
-
+  currentYearPurchases: any[] = [];
   salesChart: any = [];
+  chartDrawed = false;
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, public firestore: FirestoreService) {}
 
-  async ngOnInit(): Promise<void> {
-    if (DashboardComponent.loaded) {
-      await this.getMonthlyPurchases();
-      this.drawChart();
-    } else {
-      setTimeout(() => {
-        this.ngOnInit();
-      }, 50);
-    }
+  async ngOnInit() {
+    this.firestore.currentYearPurchasesSubject.subscribe(
+      async (purchases) => {
+        this.currentYearPurchases = purchases;
+        this.getMonthlyPurchases();
+        this.fillEmptyMonth();
+        if (this.chartDrawed) {
+          this.salesChart.destroy();
+          this.drawChart();
+        } else {
+          this.drawChart();
+          this.chartDrawed = true;
+        }
+      },
+      (error) => {
+        console.error('Error in subscription:', error);
+      }
+    );
   }
 
   drawChart() {
@@ -71,18 +77,18 @@ export class MonthlySalesChartComponent implements OnInit {
           {
             label: 'Sales in €',
             data: [
-              this.monthlySalesChart[0].sales,
-              this.monthlySalesChart[1].sales,
-              this.monthlySalesChart[2].sales,
-              this.monthlySalesChart[3].sales,
-              this.monthlySalesChart[4].sales,
-              this.monthlySalesChart[5].sales,
-              this.monthlySalesChart[6].sales,
-              this.monthlySalesChart[7].sales,
-              this.monthlySalesChart[8].sales,
-              this.monthlySalesChart[9].sales,
-              this.monthlySalesChart[10].sales,
-              this.monthlySalesChart[11].sales,
+              this.monthlySalesChart[0].total,
+              this.monthlySalesChart[1].total,
+              this.monthlySalesChart[2].total,
+              this.monthlySalesChart[3].total,
+              this.monthlySalesChart[4].total,
+              this.monthlySalesChart[5].total,
+              this.monthlySalesChart[6].total,
+              this.monthlySalesChart[7].total,
+              this.monthlySalesChart[8].total,
+              this.monthlySalesChart[9].total,
+              this.monthlySalesChart[10].total,
+              this.monthlySalesChart[11].total,
             ],
             borderWidth: 1,
           },
@@ -112,34 +118,45 @@ export class MonthlySalesChartComponent implements OnInit {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes[DashboardComponent.$yearInput]) {
-      this.getMonthlyPurchases();
-      this.drawChart();
-    }
+  getMonthlyPurchases() {
+    this.monthlySalesChart = [];
+    this.currentYearPurchases.forEach(
+      (data: { month: string; total: number }) => {
+        const existingMonth = this.monthlySalesChart.find(
+          (date: { month: string }) => date.month === data.month
+        );
+        if (existingMonth) {
+          existingMonth.total += data.total;
+        } else {
+          this.monthlySalesChart.push({
+            month: data.month,
+            total: data.total,
+          });
+        }
+      }
+    );
+    // this.fillEmptyMonth();
   }
 
-  async getMonthlyPurchases() {
-    this.monthlySalesChart = [];
-    this.months.forEach((d) => {
-      DashboardComponent.currentYearPurchases.forEach(
-        (data: { total: number }) => {
-          const existingMonth = DashboardComponent.currentYearPurchases.find(
-            (data: { month: string }) => data.month === d
-          );
-          if (existingMonth) {
-            this.monthlySalesChart.push({
-              month: d,
-              sales: existingMonth.total,
-            });
-          } else {
-            this.monthlySalesChart.push({
-              month: d,
-              sales: 0,
-            });
-          }
-        }
+  fillEmptyMonth() {
+    this.months.forEach((data) => {
+      const existingMonth = this.monthlySalesChart.find(
+        (date: { month: string }) => date.month === data
       );
+      if (!existingMonth) {
+        this.monthlySalesChart.push({
+          month: data,
+          total: 0,
+        });
+      }
     });
   }
+
+  // dataToChart() {
+  //   this.monthlySalesChart.forEach((data: { month: string; total: number; }) => {
+  //     this.salesChart.data.labels += data.month;
+  //     this.salesChart.data.datasets.data += data.total;
+  //   })
+  //   this.salesChart.update();
+  // }
 }
