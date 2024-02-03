@@ -35,7 +35,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(public firestore: FirestoreService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+
   }
 
   checkValue(event: any) {

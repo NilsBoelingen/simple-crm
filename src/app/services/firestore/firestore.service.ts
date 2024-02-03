@@ -43,6 +43,9 @@ export class FirestoreService {
   public currentYearPurchasesSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   currentYearPurchases$ = this.currentYearPurchasesSubject.asObservable();
 
+  public allPurchasesSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  allPurchases$ = this.allPurchasesSubject.asObservable();
+
   constructor(private route: ActivatedRoute) {
     this.unSubCustomers = this.subCustomers();
     this.unSubProductsList = this.subProductsList();
@@ -91,6 +94,7 @@ export class FirestoreService {
         }
       )
     );
+    this.allPurchasesSubject.next([...this.allPurchases]);
     await this.getCurrentYearPurchases();
   }
 

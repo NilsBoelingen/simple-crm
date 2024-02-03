@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { DashboardComponent } from '../dashboard.component';
 import { Chart } from 'chart.js/auto';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { FirestoreService } from '../../services/firestore/firestore.service';
   templateUrl: './monthly-sales-chart.component.html',
   styleUrl: './monthly-sales-chart.component.scss',
 })
-export class MonthlySalesChartComponent implements OnInit {
+export class MonthlySalesChartComponent implements OnInit, OnDestroy {
   months = [
     'Jan',
     'Feb',
@@ -32,11 +32,12 @@ export class MonthlySalesChartComponent implements OnInit {
   currentYearPurchases: any[] = [];
   salesChart: any = [];
   chartDrawed = false;
+  subscription: any;
 
   constructor(public router: Router, public firestore: FirestoreService) {}
 
   async ngOnInit() {
-    this.firestore.currentYearPurchasesSubject.subscribe(
+    this.subscription = this.firestore.currentYearPurchasesSubject.subscribe(
       async (purchases) => {
         this.currentYearPurchases = purchases;
         this.getMonthlyPurchases();
@@ -48,11 +49,19 @@ export class MonthlySalesChartComponent implements OnInit {
           this.drawChart();
           this.chartDrawed = true;
         }
-      },
-      (error) => {
-        console.error('Error in subscription:', error);
       }
     );
+
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    if (this.salesChart) {
+      this.salesChart.destroy();
+    }
   }
 
   drawChart() {
@@ -135,7 +144,6 @@ export class MonthlySalesChartComponent implements OnInit {
         }
       }
     );
-    // this.fillEmptyMonth();
   }
 
   fillEmptyMonth() {
@@ -151,12 +159,4 @@ export class MonthlySalesChartComponent implements OnInit {
       }
     });
   }
-
-  // dataToChart() {
-  //   this.monthlySalesChart.forEach((data: { month: string; total: number; }) => {
-  //     this.salesChart.data.labels += data.month;
-  //     this.salesChart.data.datasets.data += data.total;
-  //   })
-  //   this.salesChart.update();
-  // }
 }

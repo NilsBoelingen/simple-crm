@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DashboardComponent } from '../dashboard.component';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
@@ -11,19 +11,34 @@ import { FirestoreService } from '../../services/firestore/firestore.service';
   templateUrl: './last-sales.component.html',
   styleUrl: './last-sales.component.scss',
 })
-export class LastSalesComponent {
+export class LastSalesComponent implements OnInit, OnDestroy {
 
-  purchases = this.firestore.allPurchases;
+  purchases: any[] = [];
   lastPurchases: any[] = [];
-  displayedColumns: string[] = ['position', 'name', 'product', 'total'];
+  subscription: any;
 
   constructor(public firestore: FirestoreService) {}
+
+  async ngOnInit() {
+    this.subscription = this.firestore.currentYearPurchasesSubject.subscribe(
+      async (purchases) => {
+        this.purchases = purchases;
+        this.lastSalesToArray();
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   lastSalesToArray() {
     this.lastPurchases = [];
     let i = 0;
     this.sortByDate(this.purchases);
-    this.firestore.allPurchases.forEach(
+    this.purchases.forEach(
       (element: {
         name: string;
         date: Date;

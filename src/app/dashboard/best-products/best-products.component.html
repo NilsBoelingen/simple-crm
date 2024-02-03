@@ -1,1 +1,20 @@
-<p>best-products works!</p>
+<h1>Best 10 Products</h1>
+
+<mat-card>
+  <mat-card-content>
+    <table>
+      <tr>
+        <th>No.</th>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Total</th>
+      </tr>
+      <tr *ngFor="let purchase of bestPurchases">
+        <td>{{ purchase.index }}</td>
+        <td>{{ purchase.product }}</td>
+        <td>{{ purchase.value }}</td>
+        <td>{{ purchase.total }} €</td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

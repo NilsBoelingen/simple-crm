@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { DashboardComponent } from '../dashboard.component';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 import { FirestoreService } from '../../services/firestore/firestore.service';
 
@@ -10,7 +9,7 @@ import { FirestoreService } from '../../services/firestore/firestore.service';
   templateUrl: './proportional-sales.component.html',
   styleUrl: './proportional-sales.component.scss',
 })
-export class ProportionalSalesComponent {
+export class ProportionalSalesComponent implements OnInit, OnDestroy {
   proportionalSalesChart: any = [];
   purchases: any = [];
   purchasesPerCustomer: any = [];
@@ -18,11 +17,12 @@ export class ProportionalSalesComponent {
   chartDrawed = false;
   chartNames: string[] = [];
   chartTotals: number[] = [];
+  subscription: any;
 
   constructor(public firestore: FirestoreService) {}
 
   ngOnInit() {
-    this.firestore.currentYearPurchasesSubject.subscribe(
+    this.subscription = this.firestore.currentYearPurchasesSubject.subscribe(
       (purchases) => {
         this.currentYearPurchases = purchases;
         this.sortPurchases();
@@ -34,12 +34,19 @@ export class ProportionalSalesComponent {
           this.drawChart();
           this.chartDrawed = true;
         }
-      },
-      (error) => {
-        console.error('Error in subscription:', error);
       }
     );
-    // this.drawChart();
+
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    if (this.proportionalSalesChart) {
+      this.proportionalSalesChart.destroy();
+    }
   }
 
   drawChart() {
