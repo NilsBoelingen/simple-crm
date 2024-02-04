@@ -34,8 +34,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "./node_modules/hammerjs/hammer.min.js",
-              "node_modules/chart.js/dist/chart.js"
+              "./node_modules/hammerjs/hammer.min.js"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -103,8 +102,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "./node_modules/hammerjs/hammer.min.js",
-              "node_modules/chart.js/dist/chart.js"
+              "./node_modules/hammerjs/hammer.min.js"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
