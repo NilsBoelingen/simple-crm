@@ -35,14 +35,15 @@ export class BestProductsComponent implements OnInit, OnDestroy {
     this.bestPurchases = [];
     this.sortByTotal(this.purchases);
     let i = 0;
-
     this.purchases.forEach((purchase) => {
       const existingProduct = this.bestPurchases.find(
         (product: { product: string }) => product.product === purchase.product
       );
+      let year = new Date(purchase.date).getFullYear();
       let value = +purchase.value;
       let price = +purchase.price;
       let total = value * price;
+
       if (existingProduct) {
         existingProduct.value += value;
         existingProduct.total += total;

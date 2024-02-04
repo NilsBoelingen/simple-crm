@@ -212,6 +212,7 @@ export class FirestoreService {
   }
 
   async getCurrentYearPurchases() {
+    this.currentYearPurchases = [];
     this.allPurchases.forEach((purchase: any) => {
       let purchaseMonth = this.getMonthLabel(purchase.date.getMonth());
       let purchaseYear = purchase.date.getFullYear();
@@ -221,6 +222,7 @@ export class FirestoreService {
           name: purchase['name'],
           year: purchaseYear,
           month: purchaseMonth,
+          date: purchase['date'],
           total: purchase['price'] * purchase['value'],
         });
       }

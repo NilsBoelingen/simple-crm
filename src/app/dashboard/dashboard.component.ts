@@ -8,13 +8,46 @@ import { MonthlySalesChartComponent } from './monthly-sales-chart/monthly-sales-
 import { ProportionalSalesComponent } from './proportional-sales/proportional-sales.component';
 import { LastSalesComponent } from './last-sales/last-sales.component';
 import { BestProductsComponent } from './best-products/best-products.component';
-import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import {
+  MatDatepicker,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
+import {
+  DateAdapter,
+  MAT_DATE_LOCALE,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { FirestoreService } from '../services/firestore/firestore.service';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  providers: [provideNativeDateAdapter()],
+  providers: [
+    provideNativeDateAdapter(),
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
   imports: [
     MatCardModule,
     MatInputModule,
@@ -26,25 +59,33 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     MonthlySalesChartComponent,
     ProportionalSalesComponent,
     LastSalesComponent,
-    BestProductsComponent
+    BestProductsComponent,
+    MatIconModule,
+    MatDividerModule,
+    MatButtonModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-  // currentYear: number = new Date().getFullYear();
-  // chosenYearDate: number = new Date().getFullYear();
+  currentYear: Date = new Date();
+  minDate = new Date(2023, 0, 1);
+  maxDate = new Date();
   static publicSelectedYear: number = new Date().getFullYear();
-  // selectYear: any;
 
-  constructor() {}
+  constructor(private firestore: FirestoreService) {}
 
-  // @ViewChild('picker', { static: false })
-  // private picker!: MatDatepicker<Date>;
+  @ViewChild('picker', { static: false })
+  private picker!: MatDatepicker<Date>;
 
-  // chosenYearHandler(ev: Date, input: any){
-  //   let year = ev.getFullYear();
-  //   this.chosenYearDate = year;
-  //   this.picker.close()
-  // }
+  chosenYearHandler(ev: Date, input: any) {
+    let date = ev.valueOf();
+    this.currentYear = new Date(date);
+    this.picker.close();
+  }
+
+  chooseYear() {
+    DashboardComponent.publicSelectedYear = this.currentYear.getFullYear();
+    this.firestore.getCurrentYearPurchases();
+  }
 }

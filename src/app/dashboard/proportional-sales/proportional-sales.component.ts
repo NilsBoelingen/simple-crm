@@ -126,6 +126,8 @@ export class ProportionalSalesComponent implements OnInit, OnDestroy {
   }
 
   fillChartData() {
+    this.chartNames = [];
+    this.chartTotals = [];
     this.purchasesPerCustomer.forEach((customer: { name: string; total: number; }) => {
       this.chartNames.push(customer.name);
       this.chartTotals.push(customer.total);

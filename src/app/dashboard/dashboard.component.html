@@ -1,5 +1,31 @@
 <div class="header-container">
   <h1>Dashboard</h1>
+  <div class="form-field">
+    <mat-form-field appearance="outline">
+      <mat-label>Choose a year</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        placeholder="YYYY"
+        [(ngModel)]="currentYear"
+        [min]="minDate"
+        [max]="maxDate"
+      />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker
+        #picker
+        startView="multi-year"
+        (yearSelected)="chosenYearHandler($event, picker)"
+        panelClass="example-month-picker"
+      ></mat-datepicker>
+    </mat-form-field>
+    <button mat-icon-button (click)="chooseYear()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
 </div>
 
 <div class="upper-container">
