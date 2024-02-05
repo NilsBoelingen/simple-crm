@@ -1,4 +1,4 @@
-<mat-card *ngFor="let product of firestore.productList; let i = index" class="mb-16">
+<mat-card *ngFor="let product of firestore.productList; let i = index" class="mb-16 non-responsiv-card">
   <button
   mat-icon-button
   class="pos-right-upper"
@@ -32,6 +32,67 @@
         <td>{{ product.gpu }}</td>
         <td>{{ product.ram }}</td>
         <td>{{ product.ssd }}</td>
+        <td>{{ product.power }}</td>
+      </tr>
+    </table>
+  </mat-card-content>
+  <mat-card-footer> {{ product.price }}€ </mat-card-footer>
+</mat-card>
+
+<mat-card *ngFor="let product of firestore.productList; let i = index" class="mb-16 responsiv-card">
+  <button
+  mat-icon-button
+  class="pos-right-upper"
+  [matMenuTriggerFor]="productMenu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+
+<mat-menu #productMenu="matMenu" xPosition="before">
+  <button mat-menu-item (click)="openSellingDialog(i)">sell</button>
+  <button mat-menu-item (click)="openEditDialog(i)">edit</button>
+  <button mat-menu-item (click)="openWarningDialog(i)">delete</button>
+</mat-menu>
+  <mat-card-header>
+    <mat-card-title>{{ product.name }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <span>{{ product.description }}</span>
+
+    <table class="product-detail-table">
+      <tr>
+        <th>Prozessor</th>
+      </tr>
+      <tr>
+        <td>{{ product.prozessor }}</td>
+      </tr>
+      <tr>
+        <th>Mainboard</th>
+      </tr>
+      <tr>
+        <td>{{ product.mainboard }}</td>
+      </tr>
+      <tr>
+        <th>GPU</th>
+      </tr>
+      <tr>
+        <td>{{ product.gpu }}</td>
+      </tr>
+      <tr>
+        <th>RAM</th>
+      </tr>
+      <tr>
+        <td>{{ product.ram }}</td>
+      </tr>
+      <tr>
+        <th>SSD</th>
+      </tr>
+      <tr>
+        <td>{{ product.ssd }}</td>
+      </tr>
+      <tr>
+        <th>Power supply</th>
+      </tr>
+      <tr>
         <td>{{ product.power }}</td>
       </tr>
     </table>

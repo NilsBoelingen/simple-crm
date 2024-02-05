@@ -69,3 +69,22 @@ a {
     }
   }
 }
+
+@media (max-width: 535px) {
+  .product-index {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .sel-value, .product-price {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .sel-date {
+    display: none;
+  }
+}
+

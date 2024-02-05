@@ -17,3 +17,23 @@
   display: flex;
   align-items: flex-start;
 }
+
+@media (max-width: 1200px) {
+  .upper-container, .lower-container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  mat-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 550px) {
+  .header-container {
+    flex-direction: column;
+    justify-content: center;
+  }
+}

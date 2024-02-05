@@ -3,18 +3,18 @@
     <table class="customer-table">
       <tr>
         <th>Name</th>
-        <th>E-Mail</th>
-        <th>Telephone</th>
-        <th>City</th>
+        <th class="customer-mail">E-Mail</th>
+        <th class="customer-tel">Telephone</th>
+        <th class="customer-city">City</th>
       </tr>
       <tr
         *ngFor="let customer of getCustomer(); let i = index"
         [routerLink]="['/customer/' + customer.id]"
       >
         <td>{{ customer.firstName }} {{ customer.lastName }}</td>
-        <td>{{ customer.email }}</td>
-        <td>{{ customer.telephone }}</td>
-        <td>{{ customer.city }}</td>
+        <td class="customer-mail">{{ customer.email }}</td>
+        <td class="customer-tel">{{ customer.telephone }}</td>
+        <td class="customer-city">{{ customer.city }}</td>
         <td>
           <button mat-icon-button (click)="stopEvent($event)" [matMenuTriggerFor]="customerOverviewMenu">
             <mat-icon>more_vert</mat-icon>

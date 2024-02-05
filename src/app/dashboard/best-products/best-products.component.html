@@ -4,15 +4,15 @@
   <mat-card-content>
     <table>
       <tr>
-        <th>No.</th>
+        <th class="product-index">No.</th>
         <th>Name</th>
-        <th>Value</th>
+        <th class="sale-value">Value</th>
         <th>Total</th>
       </tr>
       <tr *ngFor="let purchase of bestPurchases">
-        <td>{{ purchase.index }}</td>
+        <td class="product-index">{{ purchase.index }}</td>
         <td>{{ purchase.product }}</td>
-        <td>{{ purchase.value }}</td>
+        <td class="sale-value">{{ purchase.value }}</td>
         <td>{{ purchase.total }} €</td>
       </tr>
     </table>

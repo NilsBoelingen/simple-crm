@@ -88,7 +88,6 @@ export class ProportionalSalesComponent implements OnInit, OnDestroy {
             },
           },
         },
-
         aspectRatio: 2 | 2,
         maintainAspectRatio: true,
         responsive: true,
@@ -101,6 +100,11 @@ export class ProportionalSalesComponent implements OnInit, OnDestroy {
             display: true,
             text: 'Proportional Sales',
           },
+          legend: {
+            display: true,
+            position: 'right',
+            maxWidth: 200,
+          }
         },
       },
     });

@@ -4,17 +4,17 @@
   <mat-card-content>
     <table>
       <tr>
-        <th>No.</th>
+        <th class="sell-index">No.</th>
         <th>Name</th>
-        <th>Date</th>
-        <th>Product</th>
+        <th class="sell-date">Date</th>
+        <th class="product-name">Product</th>
         <th>Total</th>
       </tr>
       <tr *ngFor="let purchase of lastPurchases">
-        <td>{{ purchase.index }}</td>
+        <td class="sell-index">{{ purchase.index }}</td>
         <td>{{ purchase.name }}</td>
-        <td>{{ purchase.date }}</td>
-        <td>{{ purchase.product }}</td>
+        <td class="sell-date">{{ purchase.date }}</td>
+        <td class="product-name">{{ purchase.product }}</td>
         <td>{{ purchase.total }} €</td>
       </tr>
     </table>

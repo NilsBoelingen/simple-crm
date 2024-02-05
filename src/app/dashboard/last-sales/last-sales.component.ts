@@ -53,8 +53,6 @@ export class LastSalesComponent implements OnInit, OnDestroy {
             product: element.product,
             total: element.total,
           });
-          console.log(element);
-
           i++;
         }
       }

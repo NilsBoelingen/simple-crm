@@ -67,26 +67,26 @@
   <mat-card-content>
     <table class="purchases-table">
       <tr>
-        <th>No.</th>
-        <th>Date</th>
+        <th class="product-index">No.</th>
+        <th class="sel-date">Date</th>
         <th>Product</th>
-        <th>Value</th>
-        <th>Price per unit</th>
+        <th class="sel-value">Value</th>
+        <th class="product-price">Price per unit</th>
         <th>Price</th>
       </tr>
       <tr *ngFor="let purchase of firestore.CustomerPurchases; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ getDate(purchase.date) }}</td>
+        <td class="product-index">{{ i + 1 }}</td>
+        <td class="sel-date">{{ getDate(purchase.date) }}</td>
         <td>{{ purchase.name }}</td>
-        <td>{{ purchase.value }}</td>
-        <td>{{ purchase.price }}€</td>
+        <td class="sel-value">{{ purchase.value }}</td>
+        <td class="product-price">{{ purchase.price }}€</td>
         <td>{{ purchase.price * purchase.value }}€</td>
       </tr>
       <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="product-index"></td>
+        <td class="sel-date"></td>
+        <td class="sel-value"></td>
+        <td class="product-price"></td>
         <td>in total</td>
         <td>{{ getTotalVolume() }}€</td>
       </tr>

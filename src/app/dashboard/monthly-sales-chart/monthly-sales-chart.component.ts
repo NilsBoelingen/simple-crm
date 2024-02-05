@@ -122,6 +122,9 @@ export class MonthlySalesChartComponent implements OnInit, OnDestroy {
             display: true,
             text: 'Monthly sales volume',
           },
+          legend: {
+            display: false,
+          }
         },
       },
     });

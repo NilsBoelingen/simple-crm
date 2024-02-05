@@ -7,3 +7,9 @@
   display: flex;
   flex-direction: column;
 }
+
+@media (max-width: 935px) {
+  .sell-dialog-content {
+    flex-direction: column;
+  }
+}

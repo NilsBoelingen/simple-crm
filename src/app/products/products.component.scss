@@ -56,7 +56,37 @@ mat-card-footer {
 }
 
 .add-product-btn {
-  position: absolute;
+  position: fixed;
   right: 56px;
   bottom: 56px;
+}
+
+.responsiv-card {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .responsiv-card {
+    display: block;
+    padding-bottom: 16px;
+  }
+
+  .non-responsiv-card {
+    display: none;
+  }
+
+  .product-detail-table {
+    tr {
+      &:first-child {
+        border: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 580px) {
+  .add-product-btn {
+    right: 8px;
+    bottom: 8px;
+  }
 }

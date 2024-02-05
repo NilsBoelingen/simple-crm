@@ -62,3 +62,15 @@ mat-card-content {
     }
   }
 }
+
+@media (max-width: 915px) {
+  .customer-mail, .customer-tel {
+    display: none;
+  }
+}
+
+@media (max-width: 365px) {
+  .customer-city {
+    display: none;
+  }
+}

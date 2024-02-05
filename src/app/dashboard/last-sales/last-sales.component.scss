@@ -35,3 +35,29 @@ table {
     }
   }
 }
+
+@media (max-width: 650px) {
+  .product-name {
+    display: none;
+  }
+
+  .sell-index {
+    display: none;
+  }
+}
+
+@media (max-width: 465px) {
+  .sell-date {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  table {
+    tr {
+      td{
+        font-size: 11px;
+      }
+    }
+  }
+}
