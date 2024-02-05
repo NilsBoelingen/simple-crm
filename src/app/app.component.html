@@ -9,8 +9,8 @@
       <li routerLink="customer"><mat-icon>perm_identity</mat-icon>Customers</li>
       <li routerLink="products"><mat-icon>store</mat-icon>Products</li>
     </ul>
-    <button mat-raised-button (click)="drawer.toggle()" class="menu-btn">
-      Back
+    <button mat-raised-button (click)="drawer.toggle()" class="menu-btn" *ngIf="!sidenavOpen">
+      Close
     </button>
   </mat-drawer>
 
