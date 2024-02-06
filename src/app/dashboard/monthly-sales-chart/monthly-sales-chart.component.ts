@@ -127,7 +127,7 @@ export class MonthlySalesChartComponent implements OnInit, OnDestroy {
         maintainAspectRatio: true,
         responsive: true,
         resizeDelay: 300,
-        backgroundColor: '#3F51B5',
+        backgroundColor: '#36A2EB',
         plugins: {
           title: {
             font: {
