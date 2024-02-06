@@ -7,6 +7,8 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  DocumentData,
+  QuerySnapshot,
 } from '@angular/fire/firestore';
 import { Customer } from '../../../models/customer.class';
 import { SellProduct } from '../../../models/sell-product.class';
@@ -40,10 +42,13 @@ export class FirestoreService {
   unSubPurchases: any;
   currentYearPurchases: any = [];
 
-  public currentYearPurchasesSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  public currentYearPurchasesSubject: BehaviorSubject<any[]> =
+    new BehaviorSubject<any[]>([]);
   currentYearPurchases$ = this.currentYearPurchasesSubject.asObservable();
 
-  public allPurchasesSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  public allPurchasesSubject: BehaviorSubject<any[]> = new BehaviorSubject<
+    any[]
+  >([]);
   allPurchases$ = this.allPurchasesSubject.asObservable();
 
   constructor(private route: ActivatedRoute) {
@@ -72,30 +77,41 @@ export class FirestoreService {
           firstName: string;
           lastName: string;
         }) => {
-          await new Promise<void>((resolve) => {
-            this.unSubPurchases = onSnapshot(
-              collection(this.firestore, `customers/${customer.id}/purchases`),
-              (list) => {
-                list.forEach((obj) => {
-                  let purchaseData = obj.data();
-                  let purchaseDate = new Date(purchaseData['date']);
-                  this.allPurchases.push({
-                    name: customer.firstName + customer.lastName,
-                    product: purchaseData['name'],
-                    price: purchaseData['price'],
-                    value: purchaseData['value'],
-                    date: purchaseDate,
-                  });
-                });
-                resolve();
-              }
-            );
-          });
+          await this.getAllPurchases(customer);
         }
       )
     );
     this.allPurchasesSubject.next([...this.allPurchases]);
     await this.getCurrentYearPurchases();
+  }
+
+  async getAllPurchases(customer: { id: string; firstName: string; lastName: string; }) {
+    await new Promise<void>((resolve) => {
+      this.unSubPurchases = onSnapshot(
+        collection(this.firestore, `customers/${customer.id}/purchases`),
+        (list) => {
+          this.fillAllPurchases(list, customer);
+          resolve();
+        }
+      );
+    });
+  }
+
+  fillAllPurchases(
+    list: any[] | QuerySnapshot<DocumentData, DocumentData>,
+    customer: { id?: string; firstName: string; lastName: string }
+  ) {
+    list.forEach((obj) => {
+      let purchaseData = obj.data();
+      let purchaseDate = new Date(purchaseData['date']);
+      this.allPurchases.push({
+        name: customer.firstName + customer.lastName,
+        product: purchaseData['name'],
+        price: purchaseData['price'],
+        value: purchaseData['value'],
+        date: purchaseDate,
+      });
+    });
   }
 
   async saveCustomer() {
@@ -214,20 +230,24 @@ export class FirestoreService {
   async getCurrentYearPurchases() {
     this.currentYearPurchases = [];
     this.allPurchases.forEach((purchase: any) => {
-      let purchaseMonth = this.getMonthLabel(purchase.date.getMonth());
-      let purchaseYear = purchase.date.getFullYear();
-      if (purchaseYear === DashboardComponent.publicSelectedYear) {
-        this.currentYearPurchases.push({
-          product: purchase['product'],
-          name: purchase['name'],
-          year: purchaseYear,
-          month: purchaseMonth,
-          date: purchase['date'],
-          total: purchase['price'] * purchase['value'],
-        });
-      }
+      this.fillCurrentYearPurchases(purchase);
     });
     this.currentYearPurchasesSubject.next([...this.currentYearPurchases]);
+  }
+
+  fillCurrentYearPurchases(purchase: { [x: string]: number; date: any; }) {
+    let purchaseMonth = this.getMonthLabel(purchase.date.getMonth());
+    let purchaseYear = purchase.date.getFullYear();
+    if (purchaseYear === DashboardComponent.publicSelectedYear) {
+      this.currentYearPurchases.push({
+        product: purchase['product'],
+        name: purchase['name'],
+        year: purchaseYear,
+        month: purchaseMonth,
+        date: purchase['date'],
+        total: purchase['price'] * purchase['value'],
+      });
+    }
   }
 
   getMonthLabel(month: number): string {

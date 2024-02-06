@@ -9,8 +9,8 @@
         <th class="sale-value">Value</th>
         <th>Total</th>
       </tr>
-      <tr *ngFor="let purchase of bestPurchases">
-        <td class="product-index">{{ purchase.index }}</td>
+      <tr *ngFor="let purchase of bestPurchases; let i = index">
+        <td class="product-index">{{ i + 1 }}</td>
         <td>{{ purchase.product }}</td>
         <td class="sale-value">{{ purchase.value }}</td>
         <td>{{ purchase.total }} €</td>

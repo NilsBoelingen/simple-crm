@@ -27,6 +27,20 @@ export class MonthlySalesChartComponent implements OnInit, OnDestroy {
     'Nov',
     'Dec',
   ];
+  monthlySort: { [key: string]: number } = {
+    Jan: 1,
+    Feb: 2,
+    Mar: 3,
+    Apr: 4,
+    May: 5,
+    Jun: 6,
+    Jul: 7,
+    Aug: 8,
+    Sep: 9,
+    Oct: 10,
+    Nov: 11,
+    Dec: 12,
+  };
 
   monthlySalesChart: any = [];
   currentYearPurchases: any[] = [];
@@ -42,6 +56,7 @@ export class MonthlySalesChartComponent implements OnInit, OnDestroy {
         this.currentYearPurchases = purchases;
         this.getMonthlyPurchases();
         this.fillEmptyMonth();
+        this.sortByMonth(this.monthlySalesChart);
         if (this.chartDrawed) {
           this.salesChart.destroy();
           this.drawChart();
@@ -51,7 +66,6 @@ export class MonthlySalesChartComponent implements OnInit, OnDestroy {
         }
       }
     );
-
   }
 
   ngOnDestroy() {
@@ -124,7 +138,7 @@ export class MonthlySalesChartComponent implements OnInit, OnDestroy {
           },
           legend: {
             display: false,
-          }
+          },
         },
       },
     });
@@ -161,5 +175,12 @@ export class MonthlySalesChartComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  sortByMonth(array: any) {
+    array.sort(
+      (a: { month: string | number }, b: { month: string | number }) =>
+        this.monthlySort[a.month] - this.monthlySort[b.month]
+    );
   }
 }

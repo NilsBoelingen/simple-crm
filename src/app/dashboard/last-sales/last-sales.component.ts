@@ -39,24 +39,23 @@ export class LastSalesComponent implements OnInit, OnDestroy {
     let i = 0;
     this.sortByDate(this.purchases);
     this.purchases.forEach(
-      (element: {
-        name: string;
-        date: Date;
-        product: string;
-        total: number;
-      }) => {
+      (element: { name: string; date: Date; product: string; total: number; }) => {
         if (i < 10) {
-          this.lastPurchases.push({
-            index: i + 1,
-            name: element.name,
-            date: new Date(element.date).toLocaleDateString('de-DE'),
-            product: element.product,
-            total: element.total,
-          });
+          this.fillArray(i, element)
           i++;
         }
       }
     );
+  }
+
+  fillArray(i: number, element: { name: any; date: string | number | Date; product: any; total: any; }) {
+    this.lastPurchases.push({
+      index: i + 1,
+      name: element.name,
+      date: new Date(element.date).toLocaleDateString('de-DE'),
+      product: element.product,
+      total: element.total,
+    });
   }
 
   sortByDate(array: any[]) {
