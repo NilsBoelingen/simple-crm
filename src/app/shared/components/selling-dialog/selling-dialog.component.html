@@ -1,17 +1,13 @@
 <h1 mat-dialog-title>Sell product to customer</h1>
-<form [formGroup]="selling" (ngSubmit)="sellProduct()">
   <div mat-dialog-content class="sell-dialog-content">
     <div class="input-section, mr-16">
       <div class="product-input">
         <mat-form-field appearance="outline">
           <mat-label>Select a product</mat-label>
           <mat-select
-            [(value)]="productId"
             (selectionChange)="getProductData()"
-            [required]="true"
-            formControlName="product"
-            #product
-            formGroupName="selling"
+            [(value)]="productId"
+            required
           >
             <mat-option
               value="{{ product.id }}"
@@ -27,13 +23,11 @@
             matInput
             placeholder="1"
             [(ngModel)]="firestore.sellingProduct.value"
-            [min]="1"
-            formControlName="value"
-            #value
-            [required]="true"
-            formGroupName="selling"
+            required
           />
-          <mat-hint *ngIf="showError">minimum quantity 1</mat-hint>
+          @if (firestore.sellingProduct.value < 1) {
+            <mat-error>Min value 1</mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -42,24 +36,20 @@
             matInput
             placeholder="2000"
             [(ngModel)]="firestore.sellingProduct.price"
-            [min]="1"
-            formControlName="price"
-            #price
-            [required]="true"
-            formGroupName="selling"
+            required
           />
-          <mat-hint *ngIf="showError">minimum price 1€</mat-hint>
+          @if (firestore.sellingProduct.price < 1) {
+            <mat-error>Min price 1</mat-error>
+          }
         </mat-form-field>
       </div>
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Select a customer</mat-label>
           <mat-select
-            [(value)]="customerId"
             [required]="true"
-            formControlName="customer"
-            formGroupName="selling"
-            #customer
+            [(value)]="customerId"
+            required
           >
             <mat-option
               value="{{ customer.id }}"
@@ -116,6 +106,8 @@
   </div>
   <div mat-dialog-actions>
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="sellProduct()">Sell</button>
+    <button mat-button [disabled]="!checkInput()" (click)="sellProduct()">Sell</button>
   </div>
-</form>
+
+
+

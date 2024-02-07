@@ -3,7 +3,6 @@ import { Customer } from '../../../../models/customer.class';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialogActions,
@@ -16,12 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { FirestoreService } from '../../../services/firestore/firestore.service';
-import {
-  ReactiveFormsModule,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-selling-dialog',
@@ -47,27 +42,22 @@ import {
   styleUrl: './selling-dialog.component.scss',
 })
 export class SellingDialogComponent {
+
   fromCustomer: boolean = false;
   fromProduct: boolean = false;
-  productId!: string;
+  productId: any = '';
   currentCustomer?: Customer;
   unSubProduct: any;
   i: number = -1;
   loading: boolean = false;
-  customerId: string = '';
+  customerId: any = '';
   showError: boolean = false;
-  selling!: FormGroup<any>;
+  enableBtn: boolean = false;
 
-  constructor(public firestore: FirestoreService) {}
+  constructor(public firestore: FirestoreService, private dialogRef: MatDialogRef<SellingDialogComponent >) {}
 
   ngOnInit(): void {
     this.firestore.sellingProduct.price = this.firestore.currentProduct.price;
-    this.selling = new FormGroup({
-      product: new FormControl('', [Validators.required, Validators.minLength(1)]),
-      value: new FormControl('', [Validators.required, Validators.min(1)]),
-      price: new FormControl('', [Validators.required, Validators.min(1)]),
-      customer: new FormControl('', [Validators.required, Validators.minLength(1)]),
-      });
   }
 
   getProductData() {
@@ -75,8 +65,13 @@ export class SellingDialogComponent {
   }
 
   async sellProduct() {
-    // this.firestore.sellProduct(this.customerId);
-    console.log(this.selling);
+    if (this.checkInput()) {
+      this.firestore.sellProduct(this.customerId);
+      this.dialogRef.close();
+    }
+  }
 
+  checkInput() {
+    return this.productId && this.customerId && this.firestore.sellingProduct.value as number > 0 && +this.firestore.sellingProduct.price as number > 0
   }
 }
