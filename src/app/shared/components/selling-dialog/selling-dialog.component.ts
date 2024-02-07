@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Customer } from '../../../../models/customer.class';
-import { Product } from '../../../../models/product.class';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -15,10 +14,14 @@ import {
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { Firestore, collection, onSnapshot, doc, addDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
-import { SellProduct } from '../../../../models/sell-product.class';
 import { FirestoreService } from '../../../services/firestore/firestore.service';
+import {
+  ReactiveFormsModule,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-selling-dialog',
@@ -37,12 +40,13 @@ import { FirestoreService } from '../../../services/firestore/firestore.service'
     MatIconModule,
     MatCardModule,
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './selling-dialog.component.html',
   styleUrl: './selling-dialog.component.scss',
 })
 export class SellingDialogComponent {
-
   fromCustomer: boolean = false;
   fromProduct: boolean = false;
   productId!: string;
@@ -51,11 +55,19 @@ export class SellingDialogComponent {
   i: number = -1;
   loading: boolean = false;
   customerId: string = '';
+  showError: boolean = false;
+  selling!: FormGroup<any>;
 
   constructor(public firestore: FirestoreService) {}
 
   ngOnInit(): void {
     this.firestore.sellingProduct.price = this.firestore.currentProduct.price;
+    this.selling = new FormGroup({
+      product: new FormControl('', [Validators.required, Validators.minLength(1)]),
+      value: new FormControl('', [Validators.required, Validators.min(1)]),
+      price: new FormControl('', [Validators.required, Validators.min(1)]),
+      customer: new FormControl('', [Validators.required, Validators.minLength(1)]),
+      });
   }
 
   getProductData() {
@@ -63,6 +75,8 @@ export class SellingDialogComponent {
   }
 
   async sellProduct() {
-    this.firestore.sellProduct(this.customerId);
+    // this.firestore.sellProduct(this.customerId);
+    console.log(this.selling);
+
   }
 }

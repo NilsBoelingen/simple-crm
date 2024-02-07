@@ -1,70 +1,121 @@
 <h1 mat-dialog-title>Sell product to customer</h1>
-<div mat-dialog-content class="sell-dialog-content">
-  <div class="input-section, mr-16">
-    <div class="product-input">
-      <mat-form-field appearance="outline">
-        <mat-label>Select a product</mat-label>
-        <mat-select [(value)]="productId" (selectionChange)="getProductData()">
-          <mat-option value="{{ product.id }}" *ngFor="let product of firestore.productList; let i = index">{{ product.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+<form [formGroup]="selling" (ngSubmit)="sellProduct()">
+  <div mat-dialog-content class="sell-dialog-content">
+    <div class="input-section, mr-16">
+      <div class="product-input">
+        <mat-form-field appearance="outline">
+          <mat-label>Select a product</mat-label>
+          <mat-select
+            [(value)]="productId"
+            (selectionChange)="getProductData()"
+            [required]="true"
+            formControlName="product"
+            #product
+            formGroupName="selling"
+          >
+            <mat-option
+              value="{{ product.id }}"
+              *ngFor="let product of firestore.productList; let i = index"
+              >{{ product.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Value</mat-label>
-        <input matInput placeholder="1" [(ngModel)]="firestore.sellingProduct.value" />
-      </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Value</mat-label>
+          <input
+            matInput
+            placeholder="1"
+            [(ngModel)]="firestore.sellingProduct.value"
+            [min]="1"
+            formControlName="value"
+            #value
+            [required]="true"
+            formGroupName="selling"
+          />
+          <mat-hint *ngIf="showError">minimum quantity 1</mat-hint>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Price</mat-label>
-        <input matInput placeholder="2000" [(ngModel)]="firestore.sellingProduct.price" />
-      </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Price</mat-label>
+          <input
+            matInput
+            placeholder="2000"
+            [(ngModel)]="firestore.sellingProduct.price"
+            [min]="1"
+            formControlName="price"
+            #price
+            [required]="true"
+            formGroupName="selling"
+          />
+          <mat-hint *ngIf="showError">minimum price 1€</mat-hint>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Select a customer</mat-label>
+          <mat-select
+            [(value)]="customerId"
+            [required]="true"
+            formControlName="customer"
+            formGroupName="selling"
+            #customer
+          >
+            <mat-option
+              value="{{ customer.id }}"
+              *ngFor="let customer of firestore.allCustomers; let i = index"
+              >{{ customer.firstName }} {{ customer.lastName }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
     <div>
-      <mat-form-field appearance="outline">
-        <mat-label>Select a customer</mat-label>
-        <mat-select [(value)]="customerId">
-          <mat-option value="{{ customer.id }}" *ngFor="let customer of firestore.allCustomers; let i = index">{{ customer.firstName }} {{ customer.lastName }}</mat-option>
+      <mat-card class="mb-16">
+        <mat-card-content>
+          <ul>
+            <li>Prozessor: {{ firestore.currentProduct.prozessor }}</li>
+            <li>Mainborad: {{ firestore.currentProduct.mainboard }}</li>
+            <li>GPU: {{ firestore.currentProduct.gpu }}</li>
+            <li>RAM: {{ firestore.currentProduct.ram }}</li>
+            <li>SSD: {{ firestore.currentProduct.ssd }}</li>
+            <li>Power supply: {{ firestore.currentProduct.power }}</li>
+            <li>
+              <b>Price: {{ firestore.currentProduct.price }}€</b>
+            </li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
 
-        </mat-select>
-      </mat-form-field>
+      <mat-card>
+        <mat-card-content>
+          <table>
+            <tr>
+              <td>Price per Unit:</td>
+              <td>{{ firestore.sellingProduct.price }}€</td>
+            </tr>
+            <tr>
+              <td>Value:</td>
+              <td>{{ firestore.sellingProduct.value }}</td>
+            </tr>
+            <tr>
+              <td><b>Total:</b></td>
+              <td>
+                <b
+                  >{{
+                    firestore.sellingProduct.price *
+                      firestore.sellingProduct.value
+                  }}€</b
+                >
+              </td>
+            </tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
-  <div>
-    <mat-card class="mb-16">
-      <mat-card-content>
-        <ul>
-          <li>Prozessor: {{ firestore.currentProduct.prozessor }}</li>
-          <li>Mainborad: {{ firestore.currentProduct.mainboard }}</li>
-          <li>GPU: {{ firestore.currentProduct.gpu }}</li>
-          <li>RAM: {{ firestore.currentProduct.ram }}</li>
-          <li>SSD: {{ firestore.currentProduct.ssd }}</li>
-          <li>Power supply: {{ firestore.currentProduct.power }}</li>
-          <li><b>Price: {{ firestore.currentProduct.price }}€</b></li>
-        </ul>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card>
-      <mat-card-content>
-        <table>
-          <tr>
-            <td>Price per Unit:</td>
-            <td>{{ firestore.sellingProduct.price }}€</td>
-          </tr>
-          <tr>
-            <td>Value:</td>
-            <td>{{ firestore.sellingProduct.value }}</td>
-          </tr>
-          <tr>
-            <td><b>Total:</b></td>
-            <td><b>{{ firestore.sellingProduct.price * firestore.sellingProduct.value }}€</b></td>
-          </tr>
-        </table>
-      </mat-card-content>
-    </mat-card>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="sellProduct()">Sell</button>
   </div>
-</div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button mat-dialog-close (click)="sellProduct()">Sell</button>
-</div>
+</form>

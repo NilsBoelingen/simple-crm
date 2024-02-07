@@ -57,6 +57,7 @@ export class MonthlySalesChartComponent implements OnInit, OnDestroy {
         this.getMonthlyPurchases();
         this.fillEmptyMonth();
         this.sortByMonth(this.monthlySalesChart);
+
         if (this.chartDrawed) {
           this.salesChart.destroy();
           this.drawChart();
@@ -152,13 +153,16 @@ export class MonthlySalesChartComponent implements OnInit, OnDestroy {
           (date: { month: string }) => date.month === data.month
         );
         if (existingMonth) {
-          existingMonth.total += data.total;
+          existingMonth.total += +data.total;
+          console.log(existingMonth.total);
         } else {
           this.monthlySalesChart.push({
             month: data.month,
             total: data.total,
           });
         }
+
+
       }
     );
   }
