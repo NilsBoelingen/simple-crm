@@ -6,3 +6,9 @@
       padding: 20px 24px;
   }
 }
+
+@media (max-width: 1100px) {
+  .dialog-content {
+    width: 80vw;
+  }
+}
