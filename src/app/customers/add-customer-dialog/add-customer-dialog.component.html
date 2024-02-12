@@ -1,83 +1,153 @@
 <div class="dialog-content">
-    <mat-progress-bar *ngIf="firestore.loading" mode="indeterminate"></mat-progress-bar>
-    <h1 mat-dialog-title>Add Customer</h1>
-    <div mat-dialog-content class="of-visible">
-        <div>
-            <mat-form-field appearance="outline" class="mr-16">
-                <mat-label>First Name</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.firstName"
-                    matInput placeholder="Max">
-                <!-- <mat-hint>Hint</mat-hint> -->
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>Last Name</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.lastName" matInput
-                    placeholder="Mustermann">
-                <!-- <mat-hint>Hint</mat-hint> -->
-            </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Company</mat-label>
-              <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.company" matInput
-              placeholder="Example (Ltd.)">
-              <!-- <mat-hint>Hint</mat-hint> -->
-          </mat-form-field>
-      </div>
-        <div>
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>E-Mail</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.email" matInput
-                placeholder="mail@domain.com">
-                <!-- <mat-hint>Hint</mat-hint> -->
-            </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Telephone</mat-label>
-              <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.telephone" matInput
-              placeholder="00499876123456">
-              <!-- <mat-hint>Hint</mat-hint> -->
-          </mat-form-field>
-      </div>
-        <div>
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Birthdate</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.birthDate" matInput
-                    placeholder="MM/DD/YYYY"
-                    [matDatepicker]="picker">
-                <mat-datepicker-toggle matIconSuffix
-                    [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-                <!-- <mat-hint>Hint</mat-hint> -->
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Adsress</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.address" matInput
-                    placeholder="Musterstr. 1">
-                <!-- <mat-hint>Hint</mat-hint> -->
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field appearance="outline" class="mr-16">
-                <mat-label>Zip-Code</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.zipCode" matInput
-                    placeholder="12345">
-                <!-- <mat-hint>Hint</mat-hint> -->
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>City</mat-label>
-                <input [disabled]="firestore.loading" [(ngModel)]="firestore.newCustomer.city" matInput
-                    placeholder="Musterhausen">
-                <!-- <mat-hint>Hint</mat-hint> -->
-            </mat-form-field>
-        </div>
+  <mat-progress-bar
+    *ngIf="firestore.loading"
+    mode="indeterminate"
+  ></mat-progress-bar>
+  <h1 mat-dialog-title>Add Customer</h1>
+  <div mat-dialog-content class="of-visible">
+    <div>
+      <mat-form-field appearance="outline" class="mr-16">
+        <mat-label>First Name</mat-label>
+        <input
+          [disabled]="firestore.loading"
+          [(ngModel)]="firestore.newCustomer.firstName"
+          matInput
+          placeholder="Max"
+          [formControl]="firstName"
+        />
+        @if (firstName.invalid) {
+        <mat-error>Please enter the first name</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input
+          [disabled]="firestore.loading"
+          [(ngModel)]="firestore.newCustomer.lastName"
+          matInput
+          placeholder="Mustermann"
+          [formControl]="lastName"
+        />
+        @if (lastName.invalid) {
+          <mat-error>Please enter the last name</mat-error>
+          }
+      </mat-form-field>
     </div>
-    <div mat-dialog-actions>
-        <button mat-button [disabled]="firestore.loading" mat-dialog-close>Cancel</button>
-        <button mat-button [disabled]="firestore.loading" mat-dialog-close
-            (click)="firestore.saveCustomer()">Save</button>
+    <div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Company</mat-label>
+        <input
+          [disabled]="firestore.loading"
+          [(ngModel)]="firestore.newCustomer.company"
+          matInput
+          placeholder="Example (Ltd.)"
+        />
+      </mat-form-field>
     </div>
+    <div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>E-Mail</mat-label>
+        <input
+          [disabled]="firestore.loading"
+          [(ngModel)]="firestore.newCustomer.email"
+          matInput
+          placeholder="mail@domain.com"
+          [formControl]="email"
+        />
+        @if (email.invalid) {
+          <mat-error>{{getErrorMessage()}}</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Telephone</mat-label>
+        <input
+          [disabled]="firestore.loading"
+          [(ngModel)]="firestore.newCustomer.telephone"
+          matInput
+          placeholder="00499876123456"
+          [formControl]="telephone"
+          type="number"
+        />
+        @if (telephone.invalid) {
+          <mat-error>Please enter a telephone number</mat-error>
+          }
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Birthdate</mat-label>
+        <input
+          [disabled]="firestore.loading"
+          [(ngModel)]="firestore.birthDate"
+          matInput
+          placeholder="MM/DD/YYYY"
+          [matDatepicker]="picker"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Adsress</mat-label>
+        <input
+          [disabled]="firestore.loading"
+          [(ngModel)]="firestore.newCustomer.address"
+          matInput
+          placeholder="Musterstr. 1"
+          [formControl]="address"
+        />
+        @if (address.invalid) {
+          <mat-error>Please enter a address</mat-error>
+          }
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline" class="mr-16">
+        <mat-label>Zip-Code</mat-label>
+        <input
+          [disabled]="firestore.loading"
+          [(ngModel)]="firestore.newCustomer.zipCode"
+          matInput
+          placeholder="12345"
+          type="number"
+          [formControl]="zipCode"
+        />
+        @if (zipCode.invalid) {
+          <mat-error>Please enter a zip-code</mat-error>
+          }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <input
+          [disabled]="firestore.loading"
+          [(ngModel)]="firestore.newCustomer.city"
+          matInput
+          placeholder="Musterhausen"
+          [formControl]="city"
+        />
+        @if (city.invalid) {
+          <mat-error>Please enter a City</mat-error>
+          }
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button [disabled]="firestore.loading" mat-dialog-close>
+      Cancel
+    </button>
+    <button
+      mat-button
+      [disabled]="firestore.loading || firstName.invalid || lastName.invalid || email.invalid || telephone.invalid || address.invalid || zipCode.invalid || city.invalid"
+      mat-dialog-close
+      (click)="firestore.saveCustomer()"
+    >
+      Save
+    </button>
+  </div>
 </div>
